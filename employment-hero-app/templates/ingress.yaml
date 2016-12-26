@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.app.name }}
+  annotations:
+    traefik.frontend.rule.type: pathprefix
+  labels:
+    app: {{ .Values.app.name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  rules:
+  - host: {{ .Values.app.host }}
+    http:
+      paths:
+      - path: /{{ .Values.app.name }}
+        backend:
+          serviceName: {{ .Values.app.name }}
+          servicePort: http

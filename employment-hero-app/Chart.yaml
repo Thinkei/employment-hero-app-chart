@@ -1,0 +1,8 @@
+name: employment-hero-app
+version: 0.2.0
+description: Employment Hero App Chart
+sources:
+  - https://github.com/Thinkei/charts
+maintainers:
+  - name: Employment Hero
+    email: devops@employmentinnovations.com
