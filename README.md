@@ -6,6 +6,24 @@ This is Employment Hero application definitions for [Kubernetes Helm](https://he
 Usage
 =====
 
+**Step 1:** Download the chart and extract the values file
+```bash
+curl -sL https://github.com/Thinkei/employment-hero-app-chart/releases/download/v0.2.0/employment-hero-app-0.2.0.tgz -o employment-hero-app-0.2.0.tgz
+helm inspect values employment-hero-app-0.2.0.tgz | sed -n '1!p' > values.yaml
+```
+
+**Step 2:** Update configurations in values file and install
+```bash
+helm install \
+  --namespace <namespace> \
+  -name <release_name> \
+  -f values.yaml \
+  employment-hero-app-0.2.0.tgz
+```
+
+Development
+===========
+
 |Command|Description|
 |---|---|
 |`make lint`|Runs `helm lint employment-hero-app`, lints templates|
