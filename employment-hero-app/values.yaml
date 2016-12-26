@@ -1,0 +1,24 @@
+# Kubernetes config
+# Should not be updated once installed
+config:
+  image_repo: private-registry.com/repo/path
+  service_type: NodePort
+  cpu_request: 10m
+  memory_request: 20Mi
+  containerPort: 3000
+
+# App info
+app:
+  name: app-name
+  version: 1.0.0
+  host: static-staging.employmenthero.com
+  # Uncomment if you want to use more than 1 container per pod or to override container `command`
+  # Empty command will be translated to default CMD in Dockerfile
+  # The `web` container will always be created
+  # commands:
+  #   - web: ""
+  #   - job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
+
+# Environment
+env:
+  APP_ENV: staging
