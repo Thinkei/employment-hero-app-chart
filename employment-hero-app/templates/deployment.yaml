@@ -1,3 +1,4 @@
+{{- $top_scope := . -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -25,22 +26,19 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: web
-        image: {{ .Values.config.image_repo }}:{{ default "latest" .Values.app.version }}
-        imagePullPolicy: {{ default "IfNotPresent" .Values.config.image_pull_policy }}
         ports:
         - containerPort: {{ default 3000 .Values.config.containerPort }}
         resources:
           requests:
             cpu: "{{ .Values.config.cpu_request }}"
             memory: "{{ .Values.config.memory_request }}"
-        env:
-        {{- $secret := .Values.app.name -}}
-        {{- range $key, $val := .Values.env }}
-        {{- if $val }}
-        - name: {{ $key }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $secret }}
-              key: {{ $key }}
-        {{- end }}
-        {{- end }}
+        {{- template "image_labels" $top_scope }}
+        {{- template "env_labels" $top_scope }}
+      {{- range $worker_name, $worker_command := .Values.app.workers }}
+      {{- if $worker_command }}
+      - name: {{ $worker_name }}
+        {{- template "command_labels" $worker_command }}
+        {{- template "image_labels" $top_scope }}
+        {{- template "env_labels" $top_scope }}
+      {{- end }}
+      {{- end }}

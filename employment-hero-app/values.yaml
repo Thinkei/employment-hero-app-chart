@@ -27,12 +27,12 @@ app:
   # app can be accessed at http://some.host.com/<app-name>
   host: some.host.com
 
-  # Uncomment if you want to use more than 1 container per pod or to override container `command`
-  # Empty command will be translated to default CMD in Dockerfile
+  # Uncomment if you want to add worker containers
   # The `web` container will always be created
-  # commands:
-  #   - web: ""
-  #   - job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
+  # workers:
+  #   notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
+  #   send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
+  #   will_not_be_included:
 
 # Environment
 env:
