@@ -9,7 +9,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  replicas: 1
+  replicas: {{ default 1 .Values.config.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
