@@ -17,4 +17,4 @@ spec:
       - path: /{{ .Values.app.name }}
         backend:
           serviceName: {{ .Values.app.name }}
-          servicePort: http
+          servicePort: 80

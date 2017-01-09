@@ -12,6 +12,5 @@ spec:
   selector:
     app: {{ .Values.app.name }}
   ports:
-  - name: http
-    port: 80
+  - port: 80
     targetPort: {{ default 3000 .Values.config.containerPort }}
