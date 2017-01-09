@@ -15,6 +15,10 @@ config:
   # port to be exposed in `web` container
   containerPort: 3000
 
+  # Traefik frontend rule type
+  # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
+  traefik_rule_type: PathPrefix
+
 # App info
 app:
   # app name (you don't say?) - required
