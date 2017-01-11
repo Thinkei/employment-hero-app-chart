@@ -32,13 +32,13 @@ spec:
           requests:
             cpu: "{{ .Values.config.cpu_request }}"
             memory: "{{ .Values.config.memory_request }}"
-        {{- template "image_labels" $top_scope }}
-        {{- template "env_labels" $top_scope }}
+        {{- include "image_labels" $top_scope | indent 8 }}
+        {{- include "env_labels" $top_scope | indent 8 }}
       {{- range $worker_name, $worker_command := .Values.app.workers }}
       {{- if $worker_command }}
       - name: {{ $worker_name }}
-        {{- template "command_labels" $worker_command }}
-        {{- template "image_labels" $top_scope }}
-        {{- template "env_labels" $top_scope }}
+        {{- include "command_labels" $worker_command | indent 8 }}
+        {{- include "image_labels" $top_scope | indent 8 }}
+        {{- include "env_labels" $top_scope | indent 8 }}
       {{- end }}
       {{- end }}
