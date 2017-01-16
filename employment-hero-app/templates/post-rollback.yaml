@@ -6,7 +6,7 @@ metadata:
   name: {{ .Values.app.name }}-post-rollback-r{{ .Release.Revision }}
   labels:
     app: {{ .Values.app.name }}
-    type: "hook/post-rollback"
+    type: "hook--post-rollback"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     revision: "{{ .Release.Revision }}"
@@ -23,7 +23,7 @@ spec:
         checksum/config: {{ include (print $.Chart.Name "/templates/secret.yaml") . | sha256sum }}
       labels:
         app: {{ .Values.app.name }}
-        type: "hook/post-rollback"
+        type: "hook--post-rollback"
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         revision: "{{ .Release.Revision }}"
