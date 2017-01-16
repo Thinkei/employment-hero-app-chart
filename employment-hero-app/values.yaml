@@ -37,6 +37,14 @@ app:
   #   notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
   #   send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
   #   will_not_be_included:
+  
+  job_deadline: 120 # 2 mins
+  
+  job_restart_policy: OnFailure
+  
+  # Uncomment if you want to add jobs to be executed at pre-install phase
+  # pre_install:
+  #   run_migration: ["bundle", "exec", "rake", "db:migrate"]
 
 # Environment
 env:
