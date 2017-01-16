@@ -1,0 +1,42 @@
+{{- if .Values.app.post_install }}
+{{- $top_scope := . -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.app.name }}-post-install-r{{ .Release.Revision }}
+  labels:
+    app: {{ .Values.app.name }}
+    type: "hook/post-install"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    revision: "{{ .Release.Revision }}"
+    heritage: "{{ .Release.Service }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": "post-install"
+spec:
+  activeDeadlineSeconds: {{ default 120 .Values.app.job_deadline }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Chart.Name "/templates/secret.yaml") . | sha256sum }}
+      labels:
+        app: {{ .Values.app.name }}
+        type: "hook/post-install"
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        revision: "{{ .Release.Revision }}"
+        heritage: "{{ .Release.Service }}"
+      spec:
+        restartPolicy: {{ default "OnFailure" .Values.app.job_restart_policy }}
+        containers:
+        {{- range $job_name, $job_command := .Values.app.post_install }}
+        {{- if $job_command }}
+        - name: {{ $job_name }}
+          {{- include "command_labels" $job_command | indent 10 }}
+          {{- include "image_labels" $top_scope | indent 10 }}
+          {{- include "env_labels" $top_scope | indent 10 }}
+        {{- end }}
+        {{- end }}
+{{- end }}
