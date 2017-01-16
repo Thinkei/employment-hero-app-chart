@@ -28,15 +28,15 @@ spec:
         release: "{{ .Release.Name }}"
         revision: "{{ .Release.Revision }}"
         heritage: "{{ .Release.Service }}"
-      spec:
-        restartPolicy: {{ default "OnFailure" .Values.app.job_restart_policy }}
-        containers:
-        {{- range $job_name, $job_command := .Values.app.post_upgrade }}
-        {{- if $job_command }}
-        - name: {{ $job_name }}
-          {{- include "command_labels" $job_command | indent 10 }}
-          {{- include "image_labels" $top_scope | indent 10 }}
-          {{- include "env_labels" $top_scope | indent 10 }}
-        {{- end }}
-        {{- end }}
+    spec:
+      restartPolicy: {{ default "OnFailure" .Values.app.job_restart_policy }}
+      containers:
+      {{- range $job_name, $job_command := .Values.app.post_upgrade }}
+      {{- if $job_command }}
+      - name: {{ $job_name }}
+        {{- include "command_labels" $job_command | indent 8 }}
+        {{- include "image_labels" $top_scope | indent 8 }}
+        {{- include "env_labels" $top_scope | indent 8 }}
+      {{- end }}
+      {{- end }}
 {{- end }}
