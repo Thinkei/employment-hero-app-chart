@@ -45,7 +45,22 @@ app:
   # Uncomment if you want to add jobs to be executed at pre-install phase
   # pre_install:
   #   run_migration: ["bundle", "exec", "rake", "db:migrate"]
-
+  
+  # post_install:
+  #   some_job: ["cleanup"]
+  
+  # pre_upgrade:
+  #   run_migration: ["bundle", "exec", "rake", "db:migrate"]
+  
+  # post_upgrade:
+  #   some_job: ["cleanup"]
+  
+  # pre_rollback:
+  #   run_migration: ["bundle", "exec", "rake", "db:migrate"]
+  
+  # post_rollback:
+  #   some_job: ["cleanup"]
+  
 # Environment
 env:
   APP_ENV: staging
