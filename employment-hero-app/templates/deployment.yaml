@@ -7,7 +7,6 @@ metadata:
     app: {{ .Values.app.name }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
-    revision: "{{ .Release.Revision }}"
     heritage: "{{ .Release.Service }}"
 spec:
   replicas: {{ default 1 .Values.config.replicas }}
@@ -22,7 +21,6 @@ spec:
         app: {{ .Values.app.name }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
-        revision: "{{ .Release.Revision }}"
         heritage: "{{ .Release.Service }}"
     spec:
       terminationGracePeriodSeconds: 60
