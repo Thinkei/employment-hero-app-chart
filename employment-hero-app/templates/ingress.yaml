@@ -8,7 +8,6 @@ metadata:
     app: {{ .Values.app.name }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
-    revision: "{{ .Release.Revision }}"
     heritage: "{{ .Release.Service }}"
 spec:
   rules:
