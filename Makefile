@@ -1,7 +1,7 @@
 .PHONY: help info lint package test
 
 # config
-name = invalid
+name = test-app
 namespace = default
 chart = employment-hero-app
 staging_name = $(name)-staging
