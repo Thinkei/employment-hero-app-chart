@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.app.name }}-pre-upgrade-r{{ .Release.Revision }}
+  name: {{ .Values.app.name }}-pre-upgrade-{{ randAlphaNum 5 | lower }}
   labels:
     app: {{ .Values.app.name }}
     type: "hook--pre-upgrade"
