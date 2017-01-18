@@ -4,9 +4,9 @@ config:
   # Path to private docker repo - required
   image_repo: private-registry.com/repo/path
 
-  # Kubernetes service type: use NodePort by default to prevent unauthorized request
+  # Kubernetes service type: use ClusterIP by default to prevent unauthorized request
   # @see http://kubernetes.io/docs/user-guide/services/
-  service_type: NodePort
+  service_type: ClusterIP
 
   # resources request
   cpu_request: 10m
@@ -64,3 +64,9 @@ app:
 # Environment
 env:
   APP_ENV: staging
+
+# Private files
+# content must be base64-encoded
+# all files will be mounted at /etc/kubestore
+files:
+  hello.txt: SGVsbG8=
