@@ -24,10 +24,22 @@ spec:
         heritage: "{{ .Release.Service }}"
     spec:
       terminationGracePeriodSeconds: 60
+      {{- if .Values.files }}
+      volumes:
+      - name: "kubestore"
+        secret:
+          secretName: "{{ .Values.app.name }}-files"
+      {{- end }}
       containers:
       - name: web
         ports:
         - containerPort: {{ default 3000 .Values.config.containerPort }}
+        {{- if .Values.files }}
+        volumeMounts:
+        - name: "kubestore"
+          mountPath: "/etc/kubestore"
+          readOnly: true
+        {{- end }}
         resources:
           requests:
             cpu: "{{ .Values.config.cpu_request }}"
