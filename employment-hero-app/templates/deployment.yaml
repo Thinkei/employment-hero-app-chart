@@ -32,6 +32,9 @@ spec:
       {{- end }}
       containers:
       - name: web
+        {{- if .Values.app.command }}
+        {{- include "command_labels" .Values.app.command | indent 8 }}
+        {{- end }}
         ports:
         - containerPort: {{ default 3000 .Values.config.containerPort }}
         {{- if .Values.files }}
