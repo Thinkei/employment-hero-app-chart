@@ -19,6 +19,9 @@ config:
   # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
   traefik_rule_type: PathPrefix
 
+  # deployment
+  terminationGracePeriodSeconds: 60
+
 # App info
 app:
   # app name (you don't say?) - required

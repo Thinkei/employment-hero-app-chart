@@ -23,7 +23,7 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: {{ default 60 .Values.config.terminationGracePeriodSeconds }}
       {{- if .Values.files }}
       volumes:
       - name: "kubestore"
