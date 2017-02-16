@@ -57,3 +57,9 @@ spec:
         {{- include "env_labels" $top_scope | indent 8 }}
       {{- end }}
       {{- end }}
+      {{- range $additional_version := .Values.app.additional_versions }}
+      - name: "web_v{{ $additional_version }}"
+        image: {{ $top_scope.Values.config.image_repo }}:{{ default "latest" $additional_version }}
+        imagePullPolicy: {{ default "IfNotPresent" $top_scope.Values.config.image_pull_policy }}
+        {{- include "env_labels" $top_scope | indent 8 }}
+      {{- end }}

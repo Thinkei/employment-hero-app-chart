@@ -30,6 +30,9 @@ app:
   # app version - required
   version: 1.0.0
 
+  # additional versions to be added in the release
+  # additional_versions: ["1.1.0"]
+
   # override container's command, leave empty or unset for default CMD in Dockerfile
   # command: ["ruby", "/somewhere/i/belong.ruby"] 
 
