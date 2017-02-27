@@ -59,6 +59,12 @@ spec:
         ports:
         - containerPort: {{ default 50051 $top_scope.Values.config.rpcPort }}
         {{- end }}
+        {{- if $top_scope.Values.files }}
+        volumeMounts:
+        - name: "kubestore"
+          mountPath: "/etc/kubestore"
+          readOnly: true
+        {{- end }}
       {{- end }}
       {{- end }}
       {{- range $additional_version := .Values.app.additional_versions }}
@@ -66,4 +72,10 @@ spec:
         image: {{ $top_scope.Values.config.image_repo }}:{{ default "latest" $additional_version }}
         imagePullPolicy: {{ default "IfNotPresent" $top_scope.Values.config.image_pull_policy }}
         {{- include "env_labels" $top_scope | indent 8 }}
+        {{- if $top_scope.Values.files }}
+        volumeMounts:
+        - name: "kubestore"
+          mountPath: "/etc/kubestore"
+          readOnly: true
+        {{- end }}
       {{- end }}
