@@ -15,3 +15,6 @@ spec:
   - name: http
     port: 80
     targetPort: {{ default 3000 .Values.config.containerPort }}
+  - name: rpc
+    port: 50051
+    targetPort: {{ default 50051 .Values.config.rpcPort }}
