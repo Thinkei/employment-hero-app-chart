@@ -55,6 +55,10 @@ spec:
         {{- include "command_labels" $worker_command | indent 8 }}
         {{- include "image_labels" $top_scope | indent 8 }}
         {{- include "env_labels" $top_scope | indent 8 }}
+        {{- if eq $worker_name "rpc" }}
+        ports:
+        - containerPort: {{ default 50051 $top_scope.Values.config.rpcPort }}
+        {{- end }}
       {{- end }}
       {{- end }}
       {{- range $additional_version := .Values.app.additional_versions }}

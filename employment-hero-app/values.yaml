@@ -15,6 +15,9 @@ config:
   # port to be exposed in `web` container
   containerPort: 3000
 
+  # gRPC port
+  rpcPort: 50051
+
   # Traefik frontend rule type
   # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
   traefik_rule_type: PathPrefix
@@ -34,7 +37,7 @@ app:
   # additional_versions: ["1.1.0"]
 
   # override container's command, leave empty or unset for default CMD in Dockerfile
-  # command: ["ruby", "/somewhere/i/belong.ruby"] 
+  # command: ["ruby", "/somewhere/i/belong.ruby"]
 
   # host name to be used with Traefik proxy
   # app can be accessed at http://some.host.com/<app-name>
@@ -42,34 +45,35 @@ app:
 
   # Uncomment if you want to add worker containers
   # The `web` container will always be created
-  # workers:
-  #   notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
-  #   send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
-  #   will_not_be_included:
-  
+  #workers:
+    #notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
+    #send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
+    #will_not_be_included:
+    #rpc: ["bundle", "exec", "xxx"]
+
   job_deadline: 120 # 2 mins
-  
+
   job_restart_policy: OnFailure
-  
+
   # Uncomment if you want to add jobs to be executed at pre-install phase
   # pre_install:
   #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
-  
+
   # post_install:
   #   some-job: ["cleanup"]
-  
+
   # pre_upgrade:
   #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
-  
+
   # post_upgrade:
   #   some-job: ["cleanup"]
-  
+
   # pre_rollback:
   #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
-  
+
   # post_rollback:
   #   some-job: ["cleanup"]
-  
+
 # Environment
 env:
   APP_ENV: staging
