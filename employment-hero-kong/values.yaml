@@ -1,0 +1,62 @@
+# Kubernetes config
+# Should not be updated once installed
+config:
+  # Path to private docker repo - required
+  image_repo: private-registry.com/repo/path
+
+  # Kubernetes service type: use ClusterIP by default to prevent unauthorized request
+  # @see http://kubernetes.io/docs/user-guide/services/
+  service_type: ClusterIP
+
+  # resources request
+  cpu_request: 10m
+  memory_request: 20Mi
+
+  # port to be exposed in `web` container
+  containerPort: 3000
+
+  # Traefik frontend rule type
+  # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
+  traefik_rule_type: PathPrefix
+
+# App info
+app:
+  # app name (you don't say?) - required
+  name: app-name
+
+  # app version - required
+  version: latest
+
+  # Uncomment if you want to add worker containers
+  # The `web` container will always be created
+  # workers:
+  #   notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
+  #   send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
+  #   will_not_be_included:
+  
+  job_deadline: 120 # 2 mins
+  
+  job_restart_policy: OnFailure
+  
+  # Uncomment if you want to add jobs to be executed at pre-install phase
+  # pre_install:
+  #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
+  
+  # post_install:
+  #   some-job: ["cleanup"]
+  
+  # pre_upgrade:
+  #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
+  
+  # post_upgrade:
+  #   some-job: ["cleanup"]
+  
+  # pre_rollback:
+  #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
+  
+  # post_rollback:
+  #   some-job: ["cleanup"]
+  
+# Environment
+env:
+  APP_ENV: kube-system
