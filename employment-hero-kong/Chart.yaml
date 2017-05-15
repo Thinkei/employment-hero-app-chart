@@ -1,0 +1,8 @@
+name: employment-hero-kong
+version: 0.2.6
+description: Employment Hero Chart for Kong
+sources:
+  - https://github.com/Thinkei/charts
+maintainers:
+  - name: Employment Hero
+    email: devops@employmentinnovations.com

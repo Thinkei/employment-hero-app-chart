@@ -23,7 +23,7 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
-      terminationGracePeriodSeconds: {{ default 60 .Values.config.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: 60
       {{- if .Values.files }}
       volumes:
       - name: "kubestore"
@@ -32,12 +32,18 @@ spec:
       {{- end }}
       containers:
       - name: web
-        {{- if .Values.app.command }}
-        {{- include "command_labels" .Values.app.command | indent 8 }}
-        {{- end }}
         ports:
-        - containerPort: {{ default 3000 .Values.config.containerPort }}
-          name: http
+        - containerPort: 8000
+          name: proxy
+        - containerPort: 8443
+          name: proxy-ssl
+        - containerPort: 8001
+          name: admin
+        - containerPort: 7946
+          name: cluster
+        - containerPort: 7946
+          protocol: UDP
+          name: cluster-udp
         {{- if .Values.files }}
         volumeMounts:
         - name: "kubestore"
@@ -56,27 +62,5 @@ spec:
         {{- include "command_labels" $worker_command | indent 8 }}
         {{- include "image_labels" $top_scope | indent 8 }}
         {{- include "env_labels" $top_scope | indent 8 }}
-        {{- if eq $worker_name "rpc" }}
-        ports:
-        - containerPort: {{ default 50051 $top_scope.Values.config.rpcPort }}
-        {{- end }}
-        {{- if $top_scope.Values.files }}
-        volumeMounts:
-        - name: "kubestore"
-          mountPath: "/etc/kubestore"
-          readOnly: true
-        {{- end }}
       {{- end }}
-      {{- end }}
-      {{- range $additional_version := .Values.app.additional_versions }}
-      - name: "web_v{{ $additional_version }}"
-        image: {{ $top_scope.Values.config.image_repo }}:{{ default "latest" $additional_version }}
-        imagePullPolicy: {{ default "IfNotPresent" $top_scope.Values.config.image_pull_policy }}
-        {{- include "env_labels" $top_scope | indent 8 }}
-        {{- if $top_scope.Values.files }}
-        volumeMounts:
-        - name: "kubestore"
-          mountPath: "/etc/kubestore"
-          readOnly: true
-        {{- end }}
       {{- end }}
