@@ -7,6 +7,10 @@ imagePullPolicy: {{ default "IfNotPresent" .Values.config.image_pull_policy }}
 {{/* Generate env labels */}}
 {{- define "env_labels" }}
 env:
+- name: KUBERNETES_NODE_NAME
+  valueFrom:
+    fieldRef:
+      fieldPath: spec.nodeName
 {{- $secret := .Values.app.name -}}
 {{- range $key, $val := .Values.env }}
 {{- if $val }}
