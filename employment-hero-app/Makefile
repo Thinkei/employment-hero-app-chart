@@ -3,7 +3,7 @@
 # config
 name = test-app
 namespace = default
-chart = employment-hero-app
+chart = .
 staging_name = $(name)-staging
 production_name = $(name)-production
 default_name = $(name)-default
@@ -29,7 +29,7 @@ lint:
 
 package:
 	helm package $(chart)
-	mv -f *.tgz dist/
+	mv -f *.tgz ../dist/
 
 test: validate_namespace_$(namespace)
 	helm install \
