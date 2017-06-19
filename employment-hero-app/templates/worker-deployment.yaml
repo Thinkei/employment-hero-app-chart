@@ -11,7 +11,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  replicas: {{ default 1 .Values.config.replicas }}
+  replicas: {{ default 1 .Values.config.workerReplicas }}
   selector:
     matchLabels:
       app: {{ $worker_app_name }}
