@@ -50,24 +50,6 @@ spec:
             memory: "{{ .Values.config.memory_request }}"
         {{- include "image_labels" $top_scope | indent 8 }}
         {{- include "env_labels" $top_scope | indent 8 }}
-      {{- range $worker_name, $worker_command := .Values.app.workers }}
-      {{- if $worker_command }}
-      - name: {{ $worker_name }}
-        {{- include "command_labels" $worker_command | indent 8 }}
-        {{- include "image_labels" $top_scope | indent 8 }}
-        {{- include "env_labels" $top_scope | indent 8 }}
-        {{- if eq $worker_name "rpc" }}
-        ports:
-        - containerPort: {{ default 50051 $top_scope.Values.config.rpcPort }}
-        {{- end }}
-        {{- if $top_scope.Values.files }}
-        volumeMounts:
-        - name: "kubestore"
-          mountPath: "/etc/kubestore"
-          readOnly: true
-        {{- end }}
-      {{- end }}
-      {{- end }}
       {{- range $additional_version := .Values.app.additional_versions }}
       - name: "web_v{{ $additional_version }}"
         image: {{ $top_scope.Values.config.image_repo }}:{{ default "latest" $additional_version }}
