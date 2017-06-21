@@ -22,7 +22,7 @@ spec:
     targetPort: 8000
     name: proxy
   - port: 443
-    targetPort: 8443
+    targetPort: 8000
     name: proxy-ssl
   - port: 8001
     targetPort: 8001
