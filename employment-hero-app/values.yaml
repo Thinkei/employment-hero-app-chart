@@ -51,6 +51,18 @@ app:
     #will_not_be_included:
     #rpc: ["bundle", "exec", "xxx"]
 
+  # Uncomment if you want to add cron job containers
+  # cron_jobs:
+  #   say_hello:
+  #     schedule: "*/1 * * * *"
+  #     command: ["/bin/sh", "-c", "echo hello world \\($(date)\\)"]
+  #   run_task_1:
+  #     schedule: "*/1 * * * *"
+  #     command: ["/bin/sh", "-c", "bundle exec rake eh:do_something"]
+  #   run_task_2:
+  #     schedule: "*/1 * * * *"
+  #     command: ["bundle", "exec", "rake", "eh:do_something"]
+
   job_deadline: 120 # 2 mins
 
   job_restart_policy: OnFailure

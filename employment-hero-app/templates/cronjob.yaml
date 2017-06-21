@@ -1,0 +1,43 @@
+{{- range $job_name, $job := .Values.app.cron_jobs }}
+{{- $cron_job_app_name := (printf "%s-cronjob-%s" $.Values.app.name $job_name) | replace "_" "-" -}}
+---
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: {{ $cron_job_app_name }}
+  labels:
+    app: {{ $cron_job_app_name }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+spec:
+  schedule: {{ index $job "schedule" | quote}}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: {{ default 3 $.Values.config.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ default 3 $.Values.config.failedJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: "kubestore"
+            secret:
+              secretName: "{{ $.Values.app.name }}-files"
+          containers:
+          - name: {{ $cron_job_app_name }}
+            {{- if $.Values.files }}
+            volumeMounts:
+            - name: "kubestore"
+              mountPath: "/etc/kubestore"
+              readOnly: true
+            {{- end }}
+            resources:
+              requests:
+                cpu: "{{ $.Values.config.cpu_request }}"
+                memory: "{{ $.Values.config.memory_request }}"
+            {{- include "image_labels" $ | indent 12 }}
+            {{- include "env_labels" $ | indent 12 }}
+            {{- include "command_labels" (index $job "command") | indent 12 }}
+          restartPolicy: OnFailure
+...{{ "\n" }}
+{{- end }}
