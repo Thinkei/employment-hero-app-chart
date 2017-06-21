@@ -19,6 +19,10 @@ config:
   # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
   traefik_rule_type: PathPrefix
 
+  # AWS SSL cert
+  elb_ssl_cert: 'arn:aws:acm:ap-southeast-2:xxxxxxxx:certificate/xxxx-xxx-xxx-xx'
+
+
 # App info
 app:
   # app name (you don't say?) - required
@@ -33,30 +37,30 @@ app:
   #   notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
   #   send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
   #   will_not_be_included:
-  
+
   job_deadline: 120 # 2 mins
-  
+
   job_restart_policy: OnFailure
-  
+
   # Uncomment if you want to add jobs to be executed at pre-install phase
   # pre_install:
   #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
-  
+
   # post_install:
   #   some-job: ["cleanup"]
-  
+
   # pre_upgrade:
   #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
-  
+
   # post_upgrade:
   #   some-job: ["cleanup"]
-  
+
   # pre_rollback:
   #   run-migration: ["bundle", "exec", "rake", "db:migrate"]
-  
+
   # post_rollback:
   #   some-job: ["cleanup"]
-  
+
 # Environment
 env:
   APP_ENV: kube-system
