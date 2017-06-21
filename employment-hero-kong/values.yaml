@@ -21,6 +21,8 @@ config:
 
   # AWS SSL cert
   elb_ssl_cert: 'arn:aws:acm:ap-southeast-2:xxxxxxxx:certificate/xxxx-xxx-xxx-xx'
+  elb_ssl_port: '80'
+  elb_ssl_protocol: 'http'
 
 
 # App info
