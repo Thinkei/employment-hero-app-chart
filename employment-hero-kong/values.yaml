@@ -15,10 +15,6 @@ config:
   # port to be exposed in `web` container
   containerPort: 3000
 
-  # Traefik frontend rule type
-  # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
-  traefik_rule_type: PathPrefix
-
   # AWS SSL cert
   elb_ssl_cert: 'arn:aws:acm:ap-southeast-2:xxxxxxxx:certificate/xxxx-xxx-xxx-xx'
   elb_ssl_port: '80'
