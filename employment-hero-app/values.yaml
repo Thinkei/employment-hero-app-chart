@@ -18,10 +18,6 @@ config:
   # gRPC port
   rpcPort: 50051
 
-  # Traefik frontend rule type
-  # @see https://docs.traefik.io/toml/#kubernetes-ingress-backend
-  traefik_rule_type: PathPrefix
-
   # deployment
   terminationGracePeriodSeconds: 60
 
@@ -39,8 +35,8 @@ app:
   # override container's command, leave empty or unset for default CMD in Dockerfile
   # command: ["ruby", "/somewhere/i/belong.ruby"]
 
-  # host name to be used with Traefik proxy
-  # app can be accessed at http://some.host.com/<app-name>
+  # host name to be used with ExternalDNS on AWS
+  # app can be accessed at http://some.host.com
   host: some.host.com
 
   # Uncomment if you want to add worker containers
