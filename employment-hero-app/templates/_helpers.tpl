@@ -30,3 +30,8 @@ command: [{{- range $index, $value := . }}
   {{- $value | quote }}
 {{- end }}]
 {{- end }}
+
+{{/* Generate external dns */}}
+{{- define "external_dns" }}
+external-dns.alpha.kubernetes.io/hostname: {{ .Values.app.host }}.
+{{- end }}

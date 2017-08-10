@@ -2,8 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ .Values.app.name }}
-  annotations:
-    traefik.frontend.rule.type: {{ default "PathPrefix" .Values.config.traefik_rule_type }}
   labels:
     app: {{ .Values.app.name }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
