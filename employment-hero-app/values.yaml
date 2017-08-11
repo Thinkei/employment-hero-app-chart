@@ -37,7 +37,7 @@ app:
 
   # host name to be used with ExternalDNS on AWS
   # app can be accessed at http://some.host.com
-  host: some.host.com
+  # host: some.host.com
 
   # Uncomment if you want to add worker containers
   # The `web` container will always be created
