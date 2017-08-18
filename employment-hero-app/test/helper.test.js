@@ -1,14 +1,19 @@
-import { loadConfig } from './helper';
+import { loadConfig, loadMultiConfig } from './helper';
 
 describe('helper', () => {
   describe('#loadConfig', () => {
     it('returns empty', () => {
       expect(loadConfig('wrong-file')).toEqual({});
     });
+  });
 
+  describe('#loadMultiConfig', () => {
+    it('returns empty', () => {
+      expect(loadMultiConfig('wrong-file')).toEqual([]);
+    });
 
     it('returns config', () => {
-      expect(loadConfig('web-deployment')).not.toEqual({});
+      expect(loadMultiConfig('deployment')).not.toEqual({});
     });
   });
 });
