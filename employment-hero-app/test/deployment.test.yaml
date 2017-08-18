@@ -1,0 +1,15 @@
+app:
+  name: test-app
+  # override procs to config multiple programs (services, deployments)
+  # for the corresponding code repository
+  procs:
+  - name: main
+    port: 80
+    serviceType: ClusterIP
+    command: ["bundle", "exec", "rails", "s"]
+  - name: rpc
+    port: 50051
+    serviceType: LoadBalancer
+    command: ["bundle", "exec", "ruby", "grpc_server.rb"]
+  - name: worker
+    command: ["bundle", "exec", "sidekiq"]
