@@ -4,19 +4,9 @@ config:
   # Path to private docker repo - required
   image_repo: private-registry.com/repo/path
 
-  # Kubernetes service type: use ClusterIP by default to prevent unauthorized request
-  # @see http://kubernetes.io/docs/user-guide/services/
-  service_type: ClusterIP
-
   # resources request
   cpu_request: 10m
   memory_request: 20Mi
-
-  # port to be exposed in `web` container
-  containerPort: 3000
-
-  # gRPC port
-  rpcPort: 50051
 
   # deployment
   terminationGracePeriodSeconds: 60
@@ -29,24 +19,6 @@ app:
   # app version - required
   version: 1.0.0
 
-  # additional versions to be added in the release
-  # additional_versions: ["1.1.0"]
-
-  # override container's command, leave empty or unset for default CMD in Dockerfile
-  # command: ["ruby", "/somewhere/i/belong.ruby"]
-
-  # host name to be used with ExternalDNS on AWS
-  # app can be accessed at http://some.host.com
-  # host: some.host.com
-
-  # Uncomment if you want to add worker containers
-  # The `web` container will always be created
-  #workers:
-    #notification_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/eh_notification.rb", "/app/config/sidekiq.rb"]
-    #send_mail_job: ["bundle", "exec", "sidekiq", "-r", "/app/lib/send_mail.rb", "/app/config/sidekiq.rb"]
-    #will_not_be_included:
-    #rpc: ["bundle", "exec", "xxx"]
-
   # Uncomment if you want to add cron job containers
   # cron_jobs:
   #   say_hello:
@@ -58,6 +30,21 @@ app:
   #   run_task_2:
   #     schedule: "*/1 * * * *"
   #     command: ["bundle", "exec", "rake", "eh:do_something"]
+
+  # Uncomment if you want to add web/rpc/worker containers and corresponding services
+  # procs:
+  # - name: main
+  #   port: 80
+  #   serviceType: ClusterIP
+  #   command: ["bundle", "exec", "rails", "s"]
+  #   host: main.host.com
+  # - name: rpc
+  #   port: 50051
+  #   serviceType: LoadBalancer
+  #   host: rpc.host.com
+  #   command: ["bundle", "exec", "ruby", "grpc_server.rb"]
+  # - name: worker
+  #   command: ["bundle", "exec", "sidekiq"]
 
   job_deadline: 120 # 2 mins
 
