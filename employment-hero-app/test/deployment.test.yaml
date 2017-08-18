@@ -1,7 +1,5 @@
 app:
   name: test-app
-  # override procs to config multiple programs (services, deployments)
-  # for the corresponding code repository
   procs:
   - name: main
     port: 80

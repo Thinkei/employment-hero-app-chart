@@ -34,7 +34,7 @@ export function loadMultiConfig(templateName) {
   const command = `helm template ${valueFiles} -x employment-hero-app/templates/${templateName}.yaml ${__dirname}/..`;
   const config = shell.exec(command, { silent: true }).stdout;
 
-  if (config === '') return {};
+  if (config === '') return [];
 
   return flow([
     map(x => yaml.safeLoad(x.replace('---', ''))),
