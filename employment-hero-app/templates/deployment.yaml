@@ -1,0 +1,59 @@
+{{- range $index, $proc := $.Values.app.procs }}
+{{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
+{{- $proc_command := (index $proc "command") -}}
+{{- $proc_port := (index $proc "port") -}}
+{{- $proc_replicas := (index $proc "replicas") -}}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ $proc_name }}
+  labels:
+    app: {{ $proc_name }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+spec:
+  replicas: {{ default 1 $proc_replicas }}
+  selector:
+    matchLabels:
+      app: {{ $proc_name }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Chart.Name "/templates/secret.yaml") $ | sha256sum }}
+      labels:
+        app: {{ $proc_name }}
+        chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+        release: "{{ $.Release.Name }}"
+        heritage: "{{ $.Release.Service }}"
+    spec:
+      terminationGracePeriodSeconds: {{ default 60 $.Values.config.terminationGracePeriodSeconds }}
+      {{- if $.Values.files }}
+      volumes:
+      - name: "kubestore"
+        secret:
+          secretname: "{{ $proc_name }}-files"
+      {{- end }}
+      containers:
+      - name: {{ (index $proc "name") }}
+        {{- if $proc_command }}
+        {{- include "command_labels" $proc_command | indent 8 }}
+        {{- end }}
+        ports:
+        - containerPort: {{ default 3000 $proc_port }}
+          name: http
+        {{- if $.Values.files }}
+        volumeMounts:
+        - name: "kubestore"
+          mountPath: "/etc/kubestore"
+          readOnly: true
+        {{- end }}
+        resources:
+          requests:
+            cpu: "{{ $.Values.config.cpu_request }}"
+            memory: "{{ $.Values.config.memory_request }}"
+        {{- include "image_labels" $ | indent 8 }}
+        {{- include "env_labels" $ | indent 8 }}
+...{{ "\n" }}
+{{- end }}
