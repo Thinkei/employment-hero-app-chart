@@ -22,7 +22,7 @@ metadata:
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
 spec:
-  type: {{ $service_type }}
+  type: {{ default "ClusterIP" $service_type }}
   selector:
     app: {{ $proc_name }}
   ports:
