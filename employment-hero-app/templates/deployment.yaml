@@ -33,7 +33,7 @@ spec:
       volumes:
       - name: "kubestore"
         secret:
-          secretName: "{{ $proc_name }}-files"
+          secretName: "{{ $.Values.app.name }}-files"
       {{- end }}
       containers:
       - name: {{ (index $proc "name") }}
