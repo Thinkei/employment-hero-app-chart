@@ -1,24 +1,34 @@
+{{- range $index, $proc := $.Values.app.procs }}
+{{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
+{{- $proc_port := (index $proc "port") -}}
+
+{{- if $proc_port }}
+
+{{- $proc_command := (index $proc "command") -}}
+{{- $proc_host := (index $proc "host") -}}
+{{- $service_type := (index $proc "serviceType") -}}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.app.name }}
-  {{- if .Values.app.host }}
+  name: {{ $proc_name }}
+  {{- if $proc_host }}
   annotations:
-    {{- include "external_dns" $ | indent 4 }}
+    {{- include "external_dns" $proc_host | indent 4 }}
   {{- end }}
   labels:
-    app: {{ .Values.app.name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app: {{ $proc_name }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
 spec:
-  type: {{ .Values.config.service_type }}
+  type: {{ default "ClusterIP" $service_type }}
   selector:
-    app: {{ .Values.app.name }}
+    app: {{ $proc_name }}
   ports:
   - name: http
-    port: 80
-    targetPort: {{ default 3000 .Values.config.containerPort }}
-  - name: rpc
-    port: 50051
-    targetPort: {{ default 50051 .Values.config.rpcPort }}
+    port: {{ $proc_port }}
+    targetPort: {{ $proc_port }}
+...{{ "\n" }}
+{{- end }}
+{{- end }}

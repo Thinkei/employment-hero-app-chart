@@ -5,11 +5,9 @@ app:
     port: 80
     serviceType: ClusterIP
     command: ["bundle", "exec", "rails", "s"]
-    host: main.host.com
   - name: rpc
     port: 50051
     serviceType: LoadBalancer
-    host: rpc.host.com
     command: ["bundle", "exec", "ruby", "grpc_server.rb"]
   - name: worker
     command: ["bundle", "exec", "sidekiq"]
