@@ -10,6 +10,7 @@ metadata:
   name: {{ $proc_name }}
   labels:
     app: {{ $proc_name }}
+    proc: {{ index $proc "name" }}
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
     release: "{{ $.Release.Name }}"
     heritage: "{{ $.Release.Service }}"
