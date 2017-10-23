@@ -1,0 +1,40 @@
+apiVersion: v1
+entries:
+  employment-hero-app:
+  - created: 2017-10-23T11:24:20.421197409+07:00
+    description: Employment Hero App Chart
+    digest: 5b87ee1829a8e9330cb3a30a6aa2f2a926806014ee6811f6fb3b1f7086a165e4
+    maintainers:
+    - email: devops@employmentinnovations.com
+      name: Employment Hero
+    name: employment-hero-app
+    sources:
+    - https://github.com/Thinkei/charts
+    urls:
+    - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app/employment-hero-app-0.3.5.tgz
+    version: 0.3.5
+  - created: 2017-10-23T11:24:20.420273814+07:00
+    description: Employment Hero App Chart
+    digest: 488fcf6abbc02393e9dba5dbba50c27ca7e39b390b85593f163ca6520ec8fe15
+    maintainers:
+    - email: devops@employmentinnovations.com
+      name: Employment Hero
+    name: employment-hero-app
+    sources:
+    - https://github.com/Thinkei/charts
+    urls:
+    - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app/employment-hero-app-0.3.4.tgz
+    version: 0.3.4
+  - created: 2017-10-23T11:24:20.419693791+07:00
+    description: Employment Hero App Chart
+    digest: d4bab2dbe89d11c900c3da325b06220776481aee78b5944f331109ae9feff258
+    maintainers:
+    - email: devops@employmentinnovations.com
+      name: Employment Hero
+    name: employment-hero-app
+    sources:
+    - https://github.com/Thinkei/charts
+    urls:
+    - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app/employment-hero-app-0.3.3.tgz
+    version: 0.3.3
+generated: 2017-10-23T11:24:20.41898467+07:00
