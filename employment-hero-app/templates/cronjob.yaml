@@ -1,7 +1,7 @@
 {{- range $job_name, $job := .Values.app.cron_jobs }}
 {{- $cron_job_app_name := (printf "%s-cronjob-%s" $.Values.app.name $job_name) | replace "_" "-" -}}
 ---
-apiVersion: batch/v2alpha1
+apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: {{ $cron_job_app_name }}
