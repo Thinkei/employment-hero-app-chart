@@ -54,6 +54,9 @@ spec:
           requests:
             cpu: "{{ $.Values.config.cpu_request }}"
             memory: "{{ $.Values.config.memory_request }}"
+          limits:
+            cpu: "{{ .Values.config.cpu_limit }}"
+            memory: "{{ .Values.config.memory_limit }}"
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
 ...{{ "\n" }}
