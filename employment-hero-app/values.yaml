@@ -8,6 +8,9 @@ config:
   cpu_request: 10m
   memory_request: 20Mi
 
+  # limit request
+  cpu_limit: 100m
+
   # deployment
   terminationGracePeriodSeconds: 60
 
