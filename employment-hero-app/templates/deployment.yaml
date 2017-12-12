@@ -3,6 +3,11 @@
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_port := (index $proc "port") -}}
 {{- $proc_replicas := (index $proc "replicas") -}}
+{{- $proc_cpu_request := (index $proc "cpu_request") -}}
+{{- $proc_memory_request := (index $proc "memory_request") -}}
+{{- $proc_cpu_limit := (index $proc "cpu_limit") -}}
+{{- $proc_memory_limit := (index $proc "memory_limit") -}}
+{{- $proc_node_selectors := (index $proc "node_selectors") -}}
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -36,6 +41,19 @@ spec:
         secret:
           secretName: "{{ $.Values.app.name }}-files"
       {{- end }}
+      {{- if $proc_node_selectors}}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              {{- range $key, $value := $proc_node_selectors }}
+              - key: {{ $key }}
+                operator: In
+                values:
+                - {{ $value }}
+              {{- end }}
+      {{- end }}
       containers:
       - name: {{ (index $proc "name") }}
         {{- if $proc_command }}
@@ -52,13 +70,27 @@ spec:
         {{- end }}
         resources:
           requests:
+            {{- if $proc_cpu_request }}
+            cpu: "{{ $proc_cpu_request }}"
+            {{- else if $.Values.config.cpu_request }}
             cpu: "{{ $.Values.config.cpu_request }}"
+            {{- end }}
+
+            {{- if $proc_memory_request }}
+            memory: "{{ $proc_memory_request }}"
+            {{- else if $.Values.config.memory_request }}
             memory: "{{ $.Values.config.memory_request }}"
+            {{- end }}
           limits:
-            {{- if $.Values.config.cpu_limit }}
+            {{- if $proc_cpu_limit }}
+            cpu: "{{ $proc_cpu_limit }}"
+            {{- else if $.Values.config.cpu_limit }}
             cpu: "{{ $.Values.config.cpu_limit }}"
             {{- end }}
-            {{- if $.Values.config.memory_limit }}
+
+            {{- if $proc_memory_limit }}
+            memory: "{{ $proc_memory_limit }}"
+            {{- else if $.Values.config.memory_limit }}
             memory: "{{ $.Values.config.memory_limit }}"
             {{- end }}
         {{- include "image_labels" $ | indent 8 }}
