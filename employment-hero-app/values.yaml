@@ -9,7 +9,7 @@ config:
   memory_request: 20Mi
 
   # limit request
-  cpu_limit: 100m
+  cpu_limit: 300m
   memory_limit: 5G
 
   # deployment
