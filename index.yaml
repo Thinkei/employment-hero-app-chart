@@ -1,7 +1,19 @@
 apiVersion: v1
 entries:
   employment-hero-app:
-  - created: 2017-12-12T15:09:38.431004298+07:00
+  - created: 2017-12-12T18:03:04.756007118+07:00
+    description: Employment Hero App Chart
+    digest: 2d0901a42853889ed71c6c6b2ca79ac88ced97461fcedb2ead77604f318e3172
+    maintainers:
+    - email: devops@employmentinnovations.com
+      name: Employment Hero
+    name: employment-hero-app
+    sources:
+    - https://github.com/Thinkei/charts
+    urls:
+    - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.4.1.tgz
+    version: 0.4.1
+  - created: 2017-12-12T18:03:04.755624607+07:00
     description: Employment Hero App Chart
     digest: 324028b3d10c2b26c4a458d062b3a7c912f9cd35607122466dd85f5991d9ea0e
     maintainers:
@@ -13,7 +25,7 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.4.0.tgz
     version: 0.4.0
-  - created: 2017-12-12T15:09:38.430521867+07:00
+  - created: 2017-12-12T18:03:04.754555459+07:00
     description: Employment Hero App Chart
     digest: a8ff13dc0bea0c790d1a25db19cc0c2b2f5af36b70e0da0e4d50f06f098c9c0f
     maintainers:
@@ -25,7 +37,7 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.3.8.tgz
     version: 0.3.8
-  - created: 2017-12-12T15:09:38.429480479+07:00
+  - created: 2017-12-12T18:03:04.754147067+07:00
     description: Employment Hero App Chart
     digest: 113f4c55bca66e24d4a92051ef4f7e8c43342e0cd9a63cdfb018f0855a4c721c
     maintainers:
@@ -37,7 +49,7 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.3.7.tgz
     version: 0.3.7
-  - created: 2017-12-12T15:09:38.428427097+07:00
+  - created: 2017-12-12T18:03:04.75366228+07:00
     description: Employment Hero App Chart
     digest: dc1c89f701849adc37c787cdee0bd602f08c2fa5c3d111d3e53d8e509e742dd4
     maintainers:
@@ -49,7 +61,7 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.3.6.tgz
     version: 0.3.6
-  - created: 2017-12-12T15:09:38.427463476+07:00
+  - created: 2017-12-12T18:03:04.753189871+07:00
     description: Employment Hero App Chart
     digest: 5b87ee1829a8e9330cb3a30a6aa2f2a926806014ee6811f6fb3b1f7086a165e4
     maintainers:
@@ -61,7 +73,7 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.3.5.tgz
     version: 0.3.5
-  - created: 2017-12-12T15:09:38.425934118+07:00
+  - created: 2017-12-12T18:03:04.752355408+07:00
     description: Employment Hero App Chart
     digest: 488fcf6abbc02393e9dba5dbba50c27ca7e39b390b85593f163ca6520ec8fe15
     maintainers:
@@ -73,7 +85,7 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.3.4.tgz
     version: 0.3.4
-  - created: 2017-12-12T15:09:38.424822986+07:00
+  - created: 2017-12-12T18:03:04.751793316+07:00
     description: Employment Hero App Chart
     digest: d4bab2dbe89d11c900c3da325b06220776481aee78b5944f331109ae9feff258
     maintainers:
@@ -86,7 +98,7 @@ entries:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-app-0.3.3.tgz
     version: 0.3.3
   employment-hero-kong:
-  - created: 2017-12-12T15:09:38.431571676+07:00
+  - created: 2017-12-12T18:03:04.756277539+07:00
     description: Employment Hero Chart for Kong
     digest: 572ee39ec51a0313e3ad91d5654d7eafacfed4dbd6f82d8990780468afdf0fdc
     maintainers:
@@ -98,4 +110,4 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/employment-hero-kong-0.2.10.tgz
     version: 0.2.10
-generated: 2017-12-12T15:09:38.423665885+07:00
+generated: 2017-12-12T18:03:04.751135425+07:00

@@ -53,6 +53,14 @@ spec:
                 values:
                 - {{ $value }}
               {{- end }}
+      {{- else }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: exclusive
+                operator: DoesNotExist
       {{- end }}
       containers:
       - name: {{ (index $proc "name") }}
