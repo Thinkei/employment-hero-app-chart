@@ -1,22 +1,28 @@
+{{- range $index, $certificate := $.Values.config.certificates }}
+{{- $elb_ssl_name := (index $certificate "elb_ssl_name") -}}
+{{- $elb_ssl_cert := (index $certificate "elb_ssl_cert") -}}
+{{- $elb_ssl_port := (index $certificate "elb_ssl_port") -}}
+{{- $elb_ssl_protocol := (index $certificate "elb_ssl_protocol") -}}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.app.name }}
+  name: {{ $.Values.app.name }}-{{ $elb_ssl_name }}
   labels:
-    app: {{ .Values.app.name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app: {{ $.Values.app.name }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
     k8s-addon: ingress-nginx.addons.k8s.io
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: {{ .Values.config.elb_ssl_cert | quote }}
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: {{ .Values.config.elb_ssl_protocol | quote }}
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: {{ .Values.config.elb_ssl_port | quote }}
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: {{ $elb_ssl_cert | quote }}
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: {{ $elb_ssl_protocol | quote }}
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: {{ $elb_ssl_port | quote }}
 
 spec:
-  type: {{ .Values.config.service_type }}
+  type: {{ $.Values.config.service_type }}
   selector:
-    app: {{ .Values.app.name }}
+    app: {{ $.Values.app.name }}
   ports:
   - port: 80
     targetPort: 8000
@@ -30,3 +36,5 @@ spec:
   - port: 7946
     targetPort: 7946
     name: cluster
+...{{ "\n" }}
+{{- end}}
