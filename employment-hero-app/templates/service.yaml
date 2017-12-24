@@ -7,6 +7,7 @@
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_host := (index $proc "host") -}}
 {{- $service_type := (index $proc "serviceType") -}}
+{{- $load_balancer_timeout := (index $proc "loadBalancerTimeout") -}}
 ---
 apiVersion: v1
 kind: Service
@@ -15,6 +16,9 @@ metadata:
   {{- if $proc_host }}
   annotations:
     {{- include "external_dns" $proc_host | indent 4 }}
+    {{- if $load_balancer_timeout}}
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: {{ $load_balancer_timeout }}
+    {{- end}}
   {{- end }}
   labels:
     app: {{ $proc_name }}
