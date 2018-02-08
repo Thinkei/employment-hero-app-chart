@@ -2,6 +2,7 @@
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_port := (index $proc "port") -}}
+{{- $proc_ports := (index $proc "ports") -}}
 {{- $proc_replicas := (index $proc "replicas") -}}
 {{- $proc_cpu_request := (index $proc "cpu_request") -}}
 {{- $proc_memory_request := (index $proc "memory_request") -}}
@@ -68,8 +69,16 @@ spec:
         {{- include "command_labels" $proc_command | indent 8 }}
         {{- end }}
         ports:
+        {{- if $proc_port}}
         - containerPort: {{ default 3000 $proc_port }}
           name: http
+        {{- end}}
+        {{- if $proc_ports}}
+          {{- range $index, $port := $proc_ports }}
+        - containerPort: {{ $port }}
+          name: http{{ $index }}
+          {{- end}}
+        {{- end}}
         {{- if $.Values.files }}
         volumeMounts:
         - name: "kubestore"
