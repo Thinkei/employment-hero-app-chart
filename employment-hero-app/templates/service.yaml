@@ -3,7 +3,7 @@
 {{- $proc_port := (index $proc "port") -}}
 {{- $proc_ports := (index $proc "ports") -}}
 
-{{- if $proc_port or $proc_ports }}
+{{- if or ($proc_port) ($proc_ports) }}
 
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_host := (index $proc "host") -}}
