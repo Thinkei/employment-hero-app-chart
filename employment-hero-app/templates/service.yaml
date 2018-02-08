@@ -1,8 +1,9 @@
 {{- range $index, $proc := $.Values.app.procs }}
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
 {{- $proc_port := (index $proc "port") -}}
+{{- $proc_ports := (index $proc "ports") -}}
 
-{{- if $proc_port }}
+{{- if $proc_port or $proc_ports }}
 
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_host := (index $proc "host") -}}
@@ -30,9 +31,18 @@ spec:
   selector:
     app: {{ $proc_name }}
   ports:
+  {{- if $proc_port}}
   - name: http
     port: {{ $proc_port }}
     targetPort: {{ $proc_port }}
+  {{- end}}
+  {{- if $proc_ports}}
+    {{- range $index, $port := $proc_ports }}
+  - name: http{{ $index }}
+    port: {{ $port }}
+    targetPort: {{ $port }}
+    {{- end}}
+  {{- end}}
 ...{{ "\n" }}
 {{- end }}
 {{- end }}
