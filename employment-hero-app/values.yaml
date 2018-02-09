@@ -6,7 +6,7 @@ config:
 
   # resources request
   cpu_request: 10m
-  memory_request: 20Mi
+  memory_request: 100Mi
 
   # limit request
   cpu_limit: 300m
