@@ -38,6 +38,6 @@ spec:
             {{- include "image_labels" $ | indent 12 }}
             {{- include "env_labels" $ | indent 12 }}
             {{- include "command_labels" (index $job "command") | indent 12 }}
-          restartPolicy: OnFailure
+          restartPolicy: Never
 ...{{ "\n" }}
 {{- end }}
