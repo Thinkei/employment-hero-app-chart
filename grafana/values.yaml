@@ -4,40 +4,37 @@ server:
   # annotations:
   #   iam.amazonaws.com/role: grafana
 
-  ## Grafana Docker image
+ ## Grafana Docker image
   ##
   image: "grafana/grafana:4.6.3"
 
   extraEnv: {}
   nodeSelector: {}
   tolerations: []
-
-  # Multiple replicas do not work with the default sqlite database,
-  # see http://docs.grafana.org/tutorials/ha_setup/.
-  replicaCount: 1
-
+  ebsPersistentVolumeID: "vol-0dc2c731fa72dd314"
+  
   antiAffinity:
     enabled: false
     type: hard
-
+  
   ingress:
     ## If true, Grafana Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## Grafana Ingress annotations
     ##
-    # annotations:
-    #   kubernetes.io/ingress.class: nginx
-    #   kubernetes.io/tls-acme: 'true'
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: 'true'
 
     ## Grafana Ingress hostnames
     ## Must be provided if Ingress is enabled
     ##
-    # hosts:
-    #   - grafana.domain.com
+    hosts:
+      - grafana.domain.com
 
-    ## Grafana Ingress path
+    ## Grafaa Ingress path
     ## Optional, allows specifying paths for more flexibility
     ## E.g. Traefik ingress likes paths
     ##
@@ -46,17 +43,17 @@ server:
     ## Grafana Ingress TLS configuration
     ## Secrets must be manually created in the namespace
     ##
-    # tls:
-    #   - secretName: grafana-server-tls
-    #     hosts:
-    #       - grafana.domain.com
+    tls:
+      - secretName: grafana-server-tls
+        hosts:
+          - grafana.domain.com
 
   ## Grafana container name
   ##
   name: grafana
 
-  adminUser: "admin"
-  # adminPassword: "admin"
+  adminUser: "devops"
+  adminPassword: "password17e3"
 
   ## Global imagePullPolicy
   ## Default: 'Always' if image tag is 'latest', else 'IfNotPresent'
@@ -122,7 +119,7 @@ server:
   ##
   readinessProbe:
     httpGet:
-      path: /api/health
+      path: /login
       port: 3000
     initialDelaySeconds: 30
     timeoutSeconds: 30
@@ -197,7 +194,7 @@ server:
   ## This will pass each plugin name to `grafana-cli plugins install ${plugin}`.
   ## Ref: https://github.com/grafana/grafana-docker#installing-plugins-for-grafana-3
   ##
-  # installPlugins:
+  installPlugins: grafana-clock-panel, grafana-piechart-panel
 
   # Set datasource in beginning
   setDatasource:

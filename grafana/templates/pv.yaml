@@ -10,6 +10,7 @@ spec:
   storageClassName: "gp2"
   accessModes:
     - "ReadWriteOnce"
+  persistentVolumeReclaimPolicy: Retain
   awsElasticBlockStore: 
     fsType: "ext4"
     volumeID: {{ default "" .Values.server.ebsPersistentVolumeID | quote }}
