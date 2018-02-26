@@ -42,8 +42,9 @@ alertmanager:
   ## Defining configMapOverrideName will cause templates/alertmanager-configmap.yaml
   ## to NOT generate a ConfigMap resource
   ##
-  configMapOverrideName: ""
 
+  configMapOverrideName: ""
+  ebsPersistentVolumeID: "vol-093c9aa5924c80fe9"
   ingress:
     ## If true, alertmanager Ingress will be created
     ##
