@@ -11,7 +11,10 @@ In the current repository, we are maintaining 2 types of charts:
 - `employment-hero-kong`: special helm chart used for Kong API gateway.
 
 All those helm charts are gathered into one Helm Repository and hosted on Github. The URL of the repository: [https://thinkei.github.io/employment-hero-app-chart/](https://thinkei.github.io/employment-hero-app-chart/)
-
+Add Employment Hero chart report to helm using the following command:
+```bash
+helm repo add employment-hero https://thinkei.github.io/employment-hero-app-chart
+```
 
 Usage
 =====
