@@ -7,7 +7,6 @@ metadata:
 spec:
   capacity:
     storage: "1Gi"
-  storageClassName: "gp2"
   accessModes:
     - "ReadWriteOnce"
   persistentVolumeReclaimPolicy: Retain

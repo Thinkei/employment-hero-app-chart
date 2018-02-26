@@ -11,7 +11,7 @@ server:
   extraEnv: {}
   nodeSelector: {}
   tolerations: []
-  ebsPersistentVolumeID: "vol-0dc2c731fa72dd314"
+  ebsPersistentVolumeID: "vol-037f92ff6a9995e3a"
   
   antiAffinity:
     enabled: false
@@ -96,7 +96,8 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    # storageClass: "-"
+    storageClass: "-"
+    storageClassName: ""
 
     ## Subdirectory of data Persistent Volume to mount
     ## Useful if the volume's root directory is not empty
