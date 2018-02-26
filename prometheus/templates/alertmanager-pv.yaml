@@ -12,4 +12,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   awsElasticBlockStore: 
     fsType: "ext4"
-    volumeID: "vol-093c9aa5924c80fe9"
+    volumeID: {{ default "" .Values.alertmanager.ebsPersistentVolumeID | quote }} 
