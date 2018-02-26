@@ -1,0 +1,15 @@
+apiVersion: "v1"
+kind: "PersistentVolume"
+metadata:
+  name: "pvc-prometheus-alermanager"
+  labels:
+      name: "pvc-prometheus-alertmanager"
+spec:
+  capacity:
+    storage: "2Gi"
+  accessModes:
+    - "ReadWriteOnce"
+  persistentVolumeReclaimPolicy: Retain
+  awsElasticBlockStore: 
+    fsType: "ext4"
+    volumeID: {{ default "" .Values.alertmanager.ebsPersistentVolumeID | quote }} 
