@@ -28,7 +28,7 @@ spec:
     requests:
       storage: "{{ .Values.server.persistentVolume.size }}"
   selector:
-    matchingLabels:
+    matchLabels:
       name: "pvc-prometheus"
 {{- end -}}
 {{- end -}}
