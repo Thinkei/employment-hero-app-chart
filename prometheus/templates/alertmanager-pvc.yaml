@@ -27,5 +27,6 @@ spec:
   resources:
     requests:
       storage: "{{ .Values.alertmanager.persistentVolume.size }}"
+  volumeName: pvc-prometheus-alermanager
 {{- end -}}
 {{- end -}}
