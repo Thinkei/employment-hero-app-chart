@@ -10,6 +10,9 @@ spec:
   accessModes:
     - "ReadWriteOnce"
   persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: prome-prometheus-server
+    namespace: agents
   awsElasticBlockStore: 
     fsType: "ext4"
     volumeID: {{ default "" .Values.server.ebsPersistentVolumeID | quote }}
