@@ -80,6 +80,21 @@ spec:
           {{- end}}
         {{- end}}
         {{- if $.Values.files }}
+        - containerPort: 8086
+          name: liveness-port
+          hostPort: 8086
+        livenessProbe:
+          tcpSocket:
+            port: liveness-port
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          failureThreshold: 5
+        readinessProbe:
+          tcpSocket:
+            port: liveness-port
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          failureThreshold: 5
         volumeMounts:
         - name: "kubestore"
           mountPath: "/etc/kubestore"
