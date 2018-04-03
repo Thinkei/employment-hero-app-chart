@@ -72,29 +72,38 @@ spec:
         {{- if $proc_port}}
         - containerPort: {{ default 3000 $proc_port }}
           name: http
-        {{- end}}
-        {{- if $proc_ports}}
-          {{- range $index, $port := $proc_ports }}
-        - containerPort: {{ $port }}
-          name: http{{ $index }}
-          {{- end}}
-        {{- end}}
-        {{- if $.Values.files }}
-        - containerPort: 8086
-          name: liveness-port
-          hostPort: 8086
         livenessProbe:
           tcpSocket:
-            port: liveness-port
+            port: http
           initialDelaySeconds: 20
           periodSeconds: 5
           failureThreshold: 5
         readinessProbe:
           tcpSocket:
-            port: liveness-port
+            port: http
           initialDelaySeconds: 20
           periodSeconds: 5
           failureThreshold: 5
+        {{- end}}
+        {{- if $proc_ports}}
+        livenessProbe:
+          tcpSocket:
+            port: {{ index $proc_ports 0 }}
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          failureThreshold: 5
+        readinessProbe:
+          tcpSocket:
+            port: {{ index $proc_ports 0 }}
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          failureThreshold: 5
+        {{- range $index, $port := $proc_ports }}
+        - containerPort: {{ $port }}
+          name: http{{ $index }}
+          {{- end}}
+        {{- end}}
+        {{- if $.Values.files }}
         volumeMounts:
         - name: "kubestore"
           mountPath: "/etc/kubestore"
