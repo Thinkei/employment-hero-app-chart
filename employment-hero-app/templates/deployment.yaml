@@ -75,27 +75,27 @@ spec:
         livenessProbe:
           tcpSocket:
             port: http
-          initialDelaySeconds: 20
+          initialDelaySeconds: 5
           periodSeconds: 5
-          failureThreshold: 5
+          failureThreshold: 10
         readinessProbe:
           tcpSocket:
             port: http
-          initialDelaySeconds: 20
+          initialDelaySeconds: 5
           periodSeconds: 5
-          failureThreshold: 5
+          failureThreshold: 10
         {{- end}}
         {{- if $proc_ports}}
         livenessProbe:
           tcpSocket:
             port: {{ index $proc_ports 0 }}
-          initialDelaySeconds: 20
+          initialDelaySeconds: 5
           periodSeconds: 5
           failureThreshold: 5
         readinessProbe:
           tcpSocket:
             port: {{ index $proc_ports 0 }}
-          initialDelaySeconds: 20
+          initialDelaySeconds: 5
           periodSeconds: 5
           failureThreshold: 5
         {{- range $index, $port := $proc_ports }}
