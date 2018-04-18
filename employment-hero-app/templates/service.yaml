@@ -19,7 +19,7 @@ metadata:
     {{- include "external_dns" $proc_host | indent 4 }}
     {{- end}}
     {{- if $load_balancer_timeout}}
-    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: {{ $load_balancer_timeout }}
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "{{ $load_balancer_timeout }}"
     {{- end}}
   labels:
     app: {{ $proc_name }}
