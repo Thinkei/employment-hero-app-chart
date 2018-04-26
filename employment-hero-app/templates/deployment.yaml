@@ -129,6 +129,8 @@ spec:
         - name: "kubestore"
           mountPath: "/container-metrics"
           readOnly: true
+        {{- include "image_labels" $ | indent 8 }}
+        {{- include "env_labels" $ | indent 8 }}
       {{- end }}
 ...{{ "\n" }}
 {{- end }}
