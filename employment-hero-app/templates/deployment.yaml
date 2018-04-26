@@ -129,6 +129,9 @@ spec:
         - name: "kubestore"
           mountPath: "/container-metrics"
           readOnly: true
+        ports:
+          - containerPort: {{ default 9102 (index $proc_metrics "port") }}
+            name: http
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
       {{- end }}
