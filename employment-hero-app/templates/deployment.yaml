@@ -1,6 +1,7 @@
 {{- range $index, $proc := $.Values.app.procs }}
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
 {{- $proc_command := (index $proc "command") -}}
+{{- $proc_metrics := (index $proc "metrics") -}}
 {{- $proc_port := (index $proc "port") -}}
 {{- $proc_ports := (index $proc "ports") -}}
 {{- $proc_replicas := (index $proc "replicas") -}}
@@ -29,6 +30,15 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Chart.Name "/templates/secret.yaml") $ | sha256sum }}
+        {{- if $proc_metrics }}
+        prometheus.io/scrape: "true"
+        {{- if (index $proc_metrics "port") }}
+        prometheus.io/port: "{{ index $proc_metrics "port" }}"
+        {{- end }}
+        {{- if (index $proc_metrics "path") }}
+        prometheus.io/path: "{{ index $proc_metrics "path" }}"
+        {{- end }}
+        {{- end }}
       labels:
         app: {{ $proc_name }}
         chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
@@ -112,5 +122,14 @@ spec:
             {{- end }}
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
+      {{- if $proc_metrics }}
+      - name: metric-container
+        {{- include "command_labels" (index $proc_metrics "command") | indent 8 }}
+        ports:
+          - containerPort: {{ default 9102 (index $proc_metrics "port") }}
+            name: http
+        {{- include "image_labels" $ | indent 8 }}
+        {{- include "env_labels" $ | indent 8 }}
+      {{- end }}
 ...{{ "\n" }}
 {{- end }}
