@@ -125,10 +125,6 @@ spec:
       {{- if $proc_metrics }}
       - name: metric-container
         {{- include "command_labels" (index $proc_metrics "command") | indent 8 }}
-        volumeMounts:
-        - name: "kubestore"
-          mountPath: "/container-metrics"
-          readOnly: true
         ports:
           - containerPort: {{ default 9102 (index $proc_metrics "port") }}
             name: http
