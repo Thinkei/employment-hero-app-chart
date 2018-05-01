@@ -128,6 +128,12 @@ spec:
         ports:
           - containerPort: {{ default 9102 (index $proc_metrics "port") }}
             name: http
+        {{- if $.Values.files }}
+        volumeMounts:
+        - name: "kubestore"
+          mountPath: "/etc/kubestore"
+          readOnly: true
+        {{- end }}
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
       {{- end }}
