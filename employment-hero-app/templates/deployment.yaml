@@ -51,6 +51,8 @@ spec:
       - name: "kubestore"
         secret:
           secretName: "{{ $.Values.app.name }}-files"
+      - name: "shared-data"
+        emptyDir: {}
       {{- end }}
       {{- if $proc_node_selectors}}
       affinity:
@@ -89,12 +91,14 @@ spec:
           name: http{{ $index }}
           {{- end}}
         {{- end}}
-        {{- if $.Values.files }}
         volumeMounts:
+        {{- if $.Values.files }}
         - name: "kubestore"
           mountPath: "/etc/kubestore"
           readOnly: true
         {{- end }}
+        - name: "shared-data"
+          mountPath: "/shared"
         resources:
           requests:
             {{- if $proc_cpu_request }}
@@ -128,12 +132,14 @@ spec:
         ports:
           - containerPort: {{ default 9102 (index $proc_metrics "port") }}
             name: http
-        {{- if $.Values.files }}
         volumeMounts:
+        {{- if $.Values.files }}
         - name: "kubestore"
           mountPath: "/etc/kubestore"
           readOnly: true
         {{- end }}
+        - name: "shared-data"
+          mountPath: "/shared"
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
       {{- end }}
