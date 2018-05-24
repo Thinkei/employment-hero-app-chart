@@ -127,8 +127,10 @@ spec:
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
       {{- if $proc_metrics }}
+      {{- $proc_metrics_command := (index $proc_metrics "command") -}}
+      {{- if $proc_metrics_command }}
       - name: metric-container
-        {{- include "command_labels" (index $proc_metrics "command") | indent 8 }}
+        {{- include "command_labels" $proc_metrics_command | indent 8 }}
         ports:
           - containerPort: {{ default 9102 (index $proc_metrics "port") }}
             name: http
@@ -142,6 +144,7 @@ spec:
           mountPath: "/shared"
         {{- include "image_labels" $ | indent 8 }}
         {{- include "env_labels" $ | indent 8 }}
+      {{- end }}
       {{- end }}
 ...{{ "\n" }}
 {{- end }}
