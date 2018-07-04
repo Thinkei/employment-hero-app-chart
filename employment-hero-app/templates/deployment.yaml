@@ -2,6 +2,8 @@
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_metrics := (index $proc "metrics") -}}
+{{- $proc_readiness_threshold := (index $proc "readiness_threshold") -}}
+{{- $proc_liveness_threshold := (index $proc "liveness_threshold") -}}
 {{- $proc_port := (index $proc "port") -}}
 {{- $proc_ports := (index $proc "ports") -}}
 {{- $proc_replicas := (index $proc "replicas") -}}
@@ -23,6 +25,11 @@ metadata:
     heritage: "{{ $.Release.Service }}"
 spec:
   replicas: {{ default 1 $proc_replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: {{ $proc_name }}
@@ -86,34 +93,22 @@ spec:
           name: http
         livenessProbe:
           tcpSocket:
-            port: http
+            port: {{ $proc_port }}
           initialDelaySeconds: 5
           periodSeconds: 5
-          failureThreshold: 10
+          failureThreshold: {{ default 10 $proc_liveness_threshold }}
         readinessProbe:
           tcpSocket:
-            port: http
+            port: {{ $proc_port }}
           initialDelaySeconds: 5
           periodSeconds: 5
-          failureThreshold: 10
+          failureThreshold: {{ default 10 $proc_readiness_threshold }}
         {{- end}}
         {{- if $proc_ports}}
           {{- range $index, $port := $proc_ports }}
         - containerPort: {{ $port }}
           name: http{{ $index }}
           {{- end}}
-        livenessProbe:
-          tcpSocket:
-            port: {{ index $proc_ports 0 }}
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: 5
-        readinessProbe:
-          tcpSocket:
-            port: {{ index $proc_ports 0 }}
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: 10
         {{- end}}
         volumeMounts:
         {{- if $.Values.files }}
