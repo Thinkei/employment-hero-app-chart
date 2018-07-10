@@ -2,15 +2,20 @@
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_metrics := (index $proc "metrics") -}}
-{{- $proc_readiness_threshold := (index $proc "readiness_threshold") -}}
-{{- $proc_liveness_threshold := (index $proc "liveness_threshold") -}}
+
+{{- $proc_readiness := (index $proc "readiness") -}}
+{{- $proc_liveness := (index $proc "liveness") -}}
+
 {{- $proc_port := (index $proc "port") -}}
 {{- $proc_ports := (index $proc "ports") -}}
 {{- $proc_replicas := (index $proc "replicas") -}}
+
 {{- $proc_cpu_request := (index $proc "cpu_request") -}}
 {{- $proc_memory_request := (index $proc "memory_request") -}}
+
 {{- $proc_cpu_limit := (index $proc "cpu_limit") -}}
 {{- $proc_memory_limit := (index $proc "memory_limit") -}}
+
 {{- $proc_node_selectors := (index $proc "node_selectors") -}}
 ---
 apiVersion: extensions/v1beta1
@@ -91,18 +96,6 @@ spec:
         {{- if $proc_port}}
         - containerPort: {{ default 3000 $proc_port }}
           name: http
-        livenessProbe:
-          tcpSocket:
-            port: {{ $proc_port }}
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: {{ default 10 $proc_liveness_threshold }}
-        readinessProbe:
-          tcpSocket:
-            port: {{ $proc_port }}
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: {{ default 10 $proc_readiness_threshold }}
         {{- end}}
         {{- if $proc_ports}}
           {{- range $index, $port := $proc_ports }}
@@ -110,6 +103,35 @@ spec:
           name: http{{ $index }}
           {{- end}}
         {{- end}}
+
+        {{- if $proc_readiness}}
+        readinessProbe:
+          {{- if eq "tcp" (index $proc_readiness "type") }}
+          tcpSocket:
+            port: {{ default 80 (index $proc_readiness "port") }}
+          {{- else}}
+          exec:
+          {{- include "command_labels" (index $proc_readiness "command") | indent 12 }}
+          {{- end }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: {{ default 10 (index $proc_readiness "threshold") }}
+        {{- end}}
+
+        {{- if $proc_liveness}}
+        livenessProbe:
+          {{- if eq "tcp" (index $proc_liveness "type") }}
+          tcpSocket:
+            port: {{ default 80 (index $proc_liveness "port") }}
+          {{- else}}
+          exec:
+          {{- include "command_labels" (index $proc_liveness "command") | indent 12 }}
+          {{- end }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: {{ default 10 (index $proc_liveness "threshold") }}
+        {{- end}}
+
         volumeMounts:
         {{- if $.Values.files }}
         - name: "kubestore"
