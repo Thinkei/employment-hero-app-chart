@@ -115,7 +115,7 @@ spec:
           {{- include "command_labels" (index $proc_readiness "command") | indent 12 }}
           {{- end }}
           initialDelaySeconds: 5
-          periodSeconds: 5
+          periodSeconds: {{ default 5 (index $proc_readiness "period") }}
           failureThreshold: {{ default 10 (index $proc_readiness "threshold") }}
         {{- end}}
 
@@ -129,7 +129,7 @@ spec:
           {{- include "command_labels" (index $proc_liveness "command") | indent 12 }}
           {{- end }}
           initialDelaySeconds: 5
-          periodSeconds: 5
+          periodSeconds: {{ default 5 (index $proc_liveness "period") }}
           failureThreshold: {{ default 10 (index $proc_liveness "threshold") }}
         {{- end}}
 
