@@ -1,5 +1,6 @@
 {{- range $index, $proc := $.Values.app.procs }}
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
+{{- $proc_terminating_timeout := (index $proc "terminating_timeout") }}
 {{- $proc_command := (index $proc "command") -}}
 {{- $proc_metrics := (index $proc "metrics") -}}
 
@@ -57,7 +58,7 @@ spec:
         release: "{{ $.Release.Name }}"
         heritage: "{{ $.Release.Service }}"
     spec:
-      terminationGracePeriodSeconds: {{ default 60 $.Values.config.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ default 60 $proc_terminating_timeout }}
       {{- if $.Values.files }}
       volumes:
       - name: "kubestore"
