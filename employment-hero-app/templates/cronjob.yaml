@@ -17,6 +17,9 @@ spec:
   failedJobsHistoryLimit: {{ default 3 $.Values.config.failedJobsHistoryLimit }}
   jobTemplate:
     spec:
+      parallelism: 1
+      backoffLimit: 0
+      activeDeadlineSeconds: 7200
       template:
         spec:
           volumes:
