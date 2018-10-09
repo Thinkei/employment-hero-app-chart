@@ -1,5 +1,7 @@
 {{- range $job_name, $job := .Values.app.cron_jobs }}
 {{- $cron_job_app_name := (printf "%s-cronjob-%s" $.Values.app.name $job_name) | replace "_" "-" -}}
+
+{{- $job_node_selectors := (index $job "node_selectors") -}}
 ---
 apiVersion: batch/v2alpha1
 kind: CronJob
@@ -41,6 +43,27 @@ spec:
             {{- include "image_labels" $ | indent 12 }}
             {{- include "env_labels" $ | indent 12 }}
             {{- include "command_labels" (index $job "command") | indent 12 }}
+          {{- if $job_node_selectors}}
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  {{- range $key, $value := $job_node_selectors }}
+                  - key: {{ $key }}
+                    operator: In
+                    values:
+                    - {{ $value }}
+                  {{- end }}
+          {{- else }}
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: exclusive
+                    operator: DoesNotExist
+          {{- end }}
           restartPolicy: Never
 ...{{ "\n" }}
 {{- end }}
