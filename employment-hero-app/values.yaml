@@ -34,6 +34,8 @@ app:
   #   run_task_2:
   #     schedule: "*/1 * * * *"
   #     command: ["bundle", "exec", "rake", "eh:do_something"]
+  #     node_selectors:
+  #       disktype: ssd
 
   # Uncomment if you want to add web/rpc/worker containers and corresponding services
   # procs:
