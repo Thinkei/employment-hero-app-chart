@@ -36,6 +36,7 @@ app:
   #     command: ["bundle", "exec", "rake", "eh:do_something"]
   #     node_selectors:
   #       disktype: ssd
+  #     deadline: 18000
 
   # Uncomment if you want to add web/rpc/worker containers and corresponding services
   # procs:
