@@ -2,6 +2,7 @@
 {{- $cron_job_app_name := (printf "%s-cronjob-%s" $.Values.app.name $job_name) | replace "_" "-" -}}
 
 {{- $job_node_selectors := (index $job "node_selectors") -}}
+{{- $job_deadline := (index $job "deadline") -}}
 ---
 apiVersion: batch/v2alpha1
 kind: CronJob
@@ -21,7 +22,11 @@ spec:
     spec:
       parallelism: 1
       backoffLimit: 0
+      {{- if $job_deadline}}
+      activeDeadlineSeconds: {{ $job_deadline }}
+      {{- else }}
       activeDeadlineSeconds: 7200
+      {{- end }}
       template:
         spec:
           volumes:
