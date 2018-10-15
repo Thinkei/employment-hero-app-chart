@@ -3,6 +3,9 @@
 
 {{- $job_node_selectors := (index $job "node_selectors") -}}
 {{- $job_deadline := (index $job "deadline") -}}
+{{- $is_disabled := (index $job "disabled") | default false }}
+
+{{- if eq $is_disabled false }}
 ---
 apiVersion: batch/v2alpha1
 kind: CronJob
@@ -71,4 +74,6 @@ spec:
           {{- end }}
           restartPolicy: Never
 ...{{ "\n" }}
+{{- end }} # if is_disabled
+
 {{- end }}
