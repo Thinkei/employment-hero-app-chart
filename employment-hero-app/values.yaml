@@ -9,8 +9,8 @@ config:
   memory_request: 20Mi
 
   # limit request
-  cpu_limit: 300m
-  memory_limit: 5G
+  cpu_limit: 1
+  memory_limit: 4G
 
   # deployment
   terminationGracePeriodSeconds: 60
