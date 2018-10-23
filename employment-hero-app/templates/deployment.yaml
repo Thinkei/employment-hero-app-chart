@@ -167,7 +167,9 @@ spec:
             memory: "{{ $.Values.config.memory_limit }}"
             {{- end }}
         {{- include "image_labels" $ | indent 8 }}
-        {{- include "env_labels" $ | indent 8 }}
+        envFrom:
+        - secretRef:
+            name: {{ $.Values.app.name }}
       {{- if $proc_metrics }}
       {{- $proc_metrics_command := (index $proc_metrics "command") -}}
       {{- if $proc_metrics_command }}
@@ -185,7 +187,9 @@ spec:
         - name: "shared-data"
           mountPath: "/shared"
         {{- include "image_labels" $ | indent 8 }}
-        {{- include "env_labels" $ | indent 8 }}
+        envFrom:
+        - secretRef:
+            name: {{ $.Values.app.name }}
       {{- end }}
       {{- end }}
 ...{{ "\n" }}
