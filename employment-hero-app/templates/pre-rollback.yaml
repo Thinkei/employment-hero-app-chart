@@ -36,7 +36,9 @@ spec:
       - name: {{ $job_name }}
         {{- include "command_labels" $job_command | indent 8 }}
         {{- include "image_labels" $top_scope | indent 8 }}
-        {{- include "env_labels" $top_scope | indent 8 }}
+        envFrom:
+        - secretRef:
+            name: {{ $.Values.app.name }}
       {{- end }}
       {{- end }}
 {{- end }}
