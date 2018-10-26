@@ -7,7 +7,7 @@
 
 {{- if eq $is_disabled false }}
 ---
-apiVersion: batch/v2alpha1
+apiVersion: {{ template "cronjob.apiVersion" $ }}
 kind: CronJob
 metadata:
   name: {{ $cron_job_app_name }}

@@ -16,3 +16,12 @@ command: [{{- range $index, $value := . }}
 {{- define "external_dns" }}
 external-dns.alpha.kubernetes.io/hostname: {{ . }}.
 {{- end }}
+
+{{/* Return the appropriate apiVersion for cronjob APIs. */}}
+{{- define "cronjob.apiVersion" -}}
+{{- if .Capabilities.APIVersions.Has "batch/v1beta1" -}}
+"batch/v1beta1"
+{{- else -}}
+"batch/v2alpha1"
+{{- end -}}
+{{- end -}}
