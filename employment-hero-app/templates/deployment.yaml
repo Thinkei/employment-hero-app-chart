@@ -117,6 +117,13 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: {{ default 5 (index $proc_readiness "period") }}
           failureThreshold: {{ default 10 (index $proc_readiness "threshold") }}
+        {{- else if $proc_port}}
+        readinessProbe:
+          tcpSocket:
+            port: {{ $proc_port }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 20
         {{- end}}
 
         {{- if $proc_liveness}}
@@ -131,6 +138,13 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: {{ default 5 (index $proc_liveness "period") }}
           failureThreshold: {{ default 10 (index $proc_liveness "threshold") }}
+        {{- else if $proc_port}}
+        livenessProbe:
+          tcpSocket:
+            port: {{ $proc_port }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 10
         {{- end}}
 
         volumeMounts:
