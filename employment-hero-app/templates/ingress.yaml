@@ -1,0 +1,46 @@
+{{- range $index, $proc := $.Values.app.procs }}
+{{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
+{{- $proc_port := (index $proc "port") -}}
+{{- $proc_ports := (index $proc "ports") -}}
+
+{{- if or ($proc_port) ($proc_ports) }}
+
+{{- $proc_command := (index $proc "command") -}}
+{{- $proc_host := (index $proc "host") -}}
+{{- $proc_hostpath := (index $proc "hostpath") | default "/" -}}
+{{- $proc_tls := (index $proc "tls") | default false -}}
+{{- $service_type := (index $proc "serviceType") -}}
+{{- $load_balancer_timeout := (index $proc "loadBalancerTimeout") -}}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $proc_name }}
+  labels:
+    app: {{ $proc_name }}
+    proc: {{ index $proc "name" }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
+    release: "{{ $.Release.Name }}"
+    heritage: "{{ $.Release.Service }}"
+  annotations:
+    {{- if $proc_tls }}
+    kubernetes.io/tls-acme: "true"
+    {{- end }}
+spec:
+  {{- if $proc_tls }}
+  tls:
+    - hosts:
+      - {{ $proc_host }}
+      secretName: "{{ $proc_name }}-tls"
+  {{- end }}
+  rules:
+    - host: {{ $proc_host }}
+      http:
+        paths:
+          - path: {{ $proc_hostpath }}
+            backend:
+              serviceName: {{ $proc_name }}
+              servicePort: http
+
+{{- end }} # if or ($proc_port) ($proc_ports)
+{{- end }}
