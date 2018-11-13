@@ -1,16 +1,11 @@
 {{- range $index, $proc := $.Values.app.procs }}
 {{- $proc_name := (printf "%s-%s" $.Values.app.name (index $proc "name")) -}}
-{{- $proc_port := (index $proc "port") -}}
-{{- $proc_ports := (index $proc "ports") -}}
-
-{{- if or ($proc_port) ($proc_ports) }}
-
-{{- $proc_command := (index $proc "command") -}}
 {{- $proc_host := (index $proc "host") -}}
+
+{{- if ($proc_host) }}
+
 {{- $proc_hostpath := (index $proc "hostpath") | default "/" -}}
 {{- $proc_tls := (index $proc "tls") | default false -}}
-{{- $service_type := (index $proc "serviceType") -}}
-{{- $load_balancer_timeout := (index $proc "loadBalancerTimeout") -}}
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
