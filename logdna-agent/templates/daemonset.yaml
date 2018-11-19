@@ -1,0 +1,90 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: {{ include "logdna-agent.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "logdna-agent.name" . }}
+    helm.sh/chart: {{ include "logdna-agent.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  updateStrategy:
+    type: {{ .Values.updateStrategy }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "logdna-agent.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "logdna-agent.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: logdna-agent
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: LOGDNA_AGENT_KEY
+          valueFrom:
+            secretKeyRef:
+              key: logdna-agent-key
+              name: {{ include "logdna-agent.fullname" . }}
+        - name: LOGDNA_PLATFORM
+          value: {{ .Values.LOGDNA_PLATFORM }}
+        - name: LOGDNA_TAGS
+          value: {{ .Values.LOGDNA_TAGS }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /var/data
+          name: vardata
+        - mountPath: /var/lib/docker/containers
+          name: varlibdockercontainers
+          readOnly: true
+        - mountPath: /mnt
+          name: mnt
+          readOnly: true
+        - mountPath: /var/run/docker.sock
+          name: docker
+        - mountPath: /etc/os-release
+          name: osrelease
+        - mountPath: /etc/logdna-hostname
+          name: logdnahostname
+      volumes:
+      - hostPath:
+          path: /var/log
+          type: ""
+        name: varlog
+      - hostPath:
+          path: /var/data
+          type: ""
+        name: vardata
+      - hostPath:
+          path: /var/lib/docker/containers
+          type: ""
+        name: varlibdockercontainers
+      - hostPath:
+          path: /mnt
+          type: ""
+        name: mnt
+      - hostPath:
+          path: /var/run/docker.sock
+          type: ""
+        name: docker
+      - hostPath:
+          path: /etc/os-release
+          type: ""
+        name: osrelease
+      - hostPath:
+          path: /etc/hostname
+          type: ""
+        name: logdnahostname
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+

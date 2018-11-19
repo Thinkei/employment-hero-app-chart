@@ -1,0 +1,3 @@
+Your logdna-agent daemonset is up and running!
+
+Now you could go to app.logdna.com/logs to start searching for logs.
