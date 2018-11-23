@@ -114,14 +114,14 @@ spec:
           exec:
           {{- include "command_labels" (index $proc_readiness "command") | indent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ default 5 (index $proc_readiness "initialDelay") }}
+          initialDelaySeconds: {{ default 15 (index $proc_readiness "initialDelay") }}
           periodSeconds: {{ default 5 (index $proc_readiness "period") }}
           failureThreshold: {{ default 10 (index $proc_readiness "threshold") }}
         {{- else if $proc_port}}
         readinessProbe:
           tcpSocket:
             port: {{ $proc_port }}
-          initialDelaySeconds: 5
+          initialDelaySeconds: 15
           periodSeconds: 5
           failureThreshold: 20
         {{- end}}
@@ -135,14 +135,14 @@ spec:
           exec:
           {{- include "command_labels" (index $proc_liveness "command") | indent 12 }}
           {{- end }}
-          initialDelaySeconds: {{ default 5 (index $proc_liveness "initialDelay") }}
+          initialDelaySeconds: {{ default 15 (index $proc_liveness "initialDelay") }}
           periodSeconds: {{ default 5 (index $proc_liveness "period") }}
           failureThreshold: {{ default 10 (index $proc_liveness "threshold") }}
         {{- else if $proc_port}}
         livenessProbe:
           tcpSocket:
             port: {{ $proc_port }}
-          initialDelaySeconds: 5
+          initialDelaySeconds: 15
           periodSeconds: 5
           failureThreshold: 10
         {{- end}}
