@@ -45,7 +45,7 @@ Development
 Release
 ===========
 After updating helm chart, please follow the following to release to helm repository
-- Update the helm chart verstionin `Chart.yml` file.
+- Update the helm chart version in `Chart.yml` file.
 - Package your updated helm chart, for example `helm package employment-hero-app`
 - Update the helm repository index file with: `helm repo index . --url https://thinkei.github.io/employment-hero-app-chart`
 - Commit and publish, and done <3
