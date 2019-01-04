@@ -1,6 +1,18 @@
 apiVersion: v1
 entries:
   employment-hero-app:
+  - created: 2019-01-04T10:43:04.180751197+07:00
+    description: Employment Hero App Chart
+    digest: 7f2db070ca3ea057e6edd77e4f73c59068854070e4ce67bb66d4db5fc36006e1
+    maintainers:
+    - email: devops@employmentinnovations.com
+      name: Employment Hero
+    name: employment-hero-app
+    sources:
+    - https://github.com/Thinkei/charts
+    urls:
+    - employment-hero-app-0.5.2.tgz
+    version: 0.5.2
   - created: 2018-11-23T15:47:16.431704647+07:00
     description: Employment Hero App Chart
     digest: dded0286a20785e73631bf0d72c5d078eb643accdfd1bd10fd81a88d3ff2c1e7
@@ -438,4 +450,4 @@ entries:
     urls:
     - https://thinkei.github.io/employment-hero-app-chart/prometheus-0.0.1.tgz
     version: 0.0.1
-generated: 2018-11-23T15:47:16.417640222+07:00
+generated: 2019-01-04T10:43:04.180244313+07:00
