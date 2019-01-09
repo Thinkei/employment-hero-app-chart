@@ -181,6 +181,9 @@ spec:
             memory: "{{ $.Values.config.memory_limit }}"
             {{- end }}
         {{- include "image_labels" $ | indent 8 }}
+        env:
+          - name: APP_PROC_NAME
+            value: {{ index $proc "name" }}
         envFrom:
         - secretRef:
             name: {{ $.Values.app.name }}
