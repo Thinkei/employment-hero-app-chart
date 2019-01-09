@@ -182,7 +182,7 @@ spec:
             {{- end }}
         {{- include "image_labels" $ | indent 8 }}
         env:
-          - name: APP_PROC
+          - name: APP_PROC_NAME
             value: {{ index $proc "name" }}
         envFrom:
         - secretRef:
