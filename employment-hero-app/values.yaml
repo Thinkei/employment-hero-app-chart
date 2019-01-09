@@ -5,8 +5,8 @@ config:
   image_repo: private-registry.com/repo/path
 
   # resources request
-  cpu_request: 10m
-  memory_request: 20Mi
+  cpu_request: 50m
+  memory_request: 250Mi
 
   # limit request
   cpu_limit: 1
