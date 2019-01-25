@@ -110,6 +110,10 @@ spec:
           {{- if eq "tcp" (index $proc_readiness "type") }}
           tcpSocket:
             port: {{ default 80 (index $proc_readiness "port") }}
+          {{- else if eq "http" (index $proc_readiness "type") }}
+          httpGet:
+            path: /healthz
+            port: {{ default 80 (index $proc_readiness "port") }}
           {{- else}}
           exec:
           {{- include "command_labels" (index $proc_readiness "command") | indent 12 }}
@@ -131,7 +135,11 @@ spec:
           {{- if eq "tcp" (index $proc_liveness "type") }}
           tcpSocket:
             port: {{ default 80 (index $proc_liveness "port") }}
-          {{- else}}
+          {{- else if eq "http" (index $proc_liveness "type") }}
+          httpGet:
+            path: /healthz
+            port: {{ default 80 (index $proc_liveness "port") }}
+          {{- else }}
           exec:
           {{- include "command_labels" (index $proc_liveness "command") | indent 12 }}
           {{- end }}
