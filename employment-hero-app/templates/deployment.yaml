@@ -112,7 +112,7 @@ spec:
             port: {{ default 80 (index $proc_readiness "port") }}
           {{- else if eq "http" (index $proc_readiness "type") }}
           httpGet:
-            path: /healthz
+            path: /health
             port: {{ default 80 (index $proc_readiness "port") }}
           {{- else}}
           exec:
@@ -137,7 +137,7 @@ spec:
             port: {{ default 80 (index $proc_liveness "port") }}
           {{- else if eq "http" (index $proc_liveness "type") }}
           httpGet:
-            path: /healthz
+            path: /health
             port: {{ default 80 (index $proc_liveness "port") }}
           {{- else }}
           exec:
