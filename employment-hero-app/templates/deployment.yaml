@@ -62,6 +62,8 @@ spec:
       volumes:
       - name: "shared-tmp"
         emptyDir: {}
+      - name: "shared-folder"
+        emptyDir: {}
       {{- if $.Values.files }}
       - name: "kubestore"
         secret:
@@ -163,6 +165,8 @@ spec:
         {{- end }}
         - name: "shared-tmp"
           mountPath: "/tmp"
+        - name: "shared-folder"
+          mountPath: "/shared"
         resources:
           requests:
             {{- if $proc_cpu_request }}
@@ -211,6 +215,8 @@ spec:
         {{- end }}
         - name: "shared-tmp"
           mountPath: "/tmp"
+        - name: "shared-folder"
+          mountPath: "/shared"
         {{- include "image_labels" $ | indent 8 }}
         envFrom:
         - secretRef:
