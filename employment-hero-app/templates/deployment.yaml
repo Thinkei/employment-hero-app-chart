@@ -215,7 +215,7 @@ spec:
         {{- end }}
         - name: "shared-tmp"
           mountPath: "/tmp"
-        - name: "shared-shared"
+        - name: "shared-folder"
           mountPath: "/shared"
         {{- include "image_labels" $ | indent 8 }}
         envFrom:
