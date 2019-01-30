@@ -59,13 +59,13 @@ spec:
         heritage: "{{ $.Release.Service }}"
     spec:
       terminationGracePeriodSeconds: {{ default 60 $proc_terminating_timeout }}
-      {{- if $.Values.files }}
       volumes:
+      - name: "shared-tmp"
+        emptyDir: {}
+      {{- if $.Values.files }}
       - name: "kubestore"
         secret:
           secretName: "{{ $.Values.app.name }}-files"
-      - name: "shared-tmp"
-        emptyDir: {}
       {{- end }}
       {{- if $proc_node_selectors}}
       affinity:
