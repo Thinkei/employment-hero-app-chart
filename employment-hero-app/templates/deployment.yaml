@@ -197,7 +197,7 @@ spec:
           - name: APP_PROC_NAME
             value: {{ index $proc "name" }}
           - name: APP_NAME
-            value: {{ $.Values.app.name }}
+            value: {{ $proc_name }}
         envFrom:
         - secretRef:
             name: {{ $.Values.app.name }}
