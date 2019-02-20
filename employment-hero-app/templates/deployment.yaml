@@ -220,6 +220,9 @@ spec:
         - name: "shared-folder"
           mountPath: "/shared"
         {{- include "image_labels" $ | indent 8 }}
+        env:
+          - name: APP_NAME
+            value: {{ $proc_name }}
         envFrom:
         - secretRef:
             name: {{ $.Values.app.name }}
