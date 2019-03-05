@@ -24,9 +24,24 @@ spec:
       - name: alerta-web
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.config }}
+        volumeMounts:
+        - name: config
+          subPath: alerta-config.conf
+          mountPath: /app/alertad.conf
+        {{- end }}
         ports:
         - containerPort: 8080
           name: http
         envFrom:
         - secretRef:
             name: {{ include "alerta.fullname" . }}-secrets
+      {{- if .Values.config }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "alerta.fullname" . }}-configmap
+            items:
+              - key: alerta-config
+                path: alerta-config.conf
+      {{- end }}

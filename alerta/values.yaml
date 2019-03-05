@@ -13,4 +13,4 @@ fullnameOverride: ""
 env: []
 ingress: {}
 updateStrategy: RollingUpdate
-
+config: ""
