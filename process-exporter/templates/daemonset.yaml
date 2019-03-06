@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: {{ include "process-exporter.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "process-exporter.name" . }}
+    helm.sh/chart: {{ include "process-exporter.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  updateStrategy:
+    type: {{ .Values.updateStrategy }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "process-exporter.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "process-exporter.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      privileged: true
+      restartPolicy: Always
+      containers:
+      - name: process-exporter
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: metrics
+            containerPort: {{ .Values.port }}
+        command:
+        - "process-exporter"
+        args:
+        {{ if .Values.argsOverride }}
+{{ toYaml .Values.argsOverride | indent 8 }}
+        {{ else }}
+        - "--procfs"
+        - "/host/proc"
+        - "-config.path"
+        - "/etc/process_exporter/config.yaml"
+        - "-children=false"
+        {{ end }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        volumeMounts:
+        - mountPath: /host/proc
+          name: procfs
+        - mountPath: /etc/process_exporter
+          name: config
+      volumes:
+      - hostPath:
+          path: /proc
+          type: ""
+        name: procfs
+      - configMap:
+          name: {{ include "process-exporter.fullname" . }}
+        name: config
+
