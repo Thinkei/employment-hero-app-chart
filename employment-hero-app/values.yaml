@@ -85,3 +85,8 @@ env:
 # all files will be mounted at /etc/kubestore
 files:
   hello.txt: SGVsbG8=
+
+# These files are stored as is
+# all files will be mounted at /etc/kubestore-text
+textFiles:
+  placeholder: .placeholder
