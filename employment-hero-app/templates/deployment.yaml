@@ -69,6 +69,11 @@ spec:
         secret:
           secretName: "{{ $.Values.app.name }}-files"
       {{- end }}
+      {{- if $.Values.textFiles }}
+      - name: "kubestore-text"
+        configMap:
+          name: "{{ $.Values.app.name }}-textfiles"
+      {{- end }}
       {{- if $proc_node_selectors}}
       affinity:
         nodeAffinity:
@@ -163,6 +168,11 @@ spec:
           mountPath: "/etc/kubestore"
           readOnly: true
         {{- end }}
+        {{- if $.Values.textFiles }}
+        - name: "kubestore-text"
+          mountPath: "/etc/kubestore-text"
+          readOnly: true
+        {{- end }}
         - name: "shared-tmp"
           mountPath: "/tmp"
         - name: "shared-folder"
@@ -213,6 +223,11 @@ spec:
         {{- if $.Values.files }}
         - name: "kubestore"
           mountPath: "/etc/kubestore"
+          readOnly: true
+        {{- end }}
+        {{- if $.Values.textFiles }}
+        - name: "kubestore"
+          mountPath: "/etc/kubestore-text"
           readOnly: true
         {{- end }}
         - name: "shared-tmp"
