@@ -12,6 +12,14 @@ config:
   cpu_limit: 1
   memory_limit: 4G
 
+  # metric-container resource request
+  metric_cpu_request: 10m
+  metric_memory_request: 50Mi
+
+  # limit metric-container resource request
+  metric_cpu_limit: 250m
+  metric_memory_limit: 500Mi
+
   # deployment
   terminationGracePeriodSeconds: 60
 

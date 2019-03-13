@@ -17,6 +17,12 @@
 {{- $proc_cpu_limit := (index $proc "cpu_limit") -}}
 {{- $proc_memory_limit := (index $proc "memory_limit") -}}
 
+{{- $proc_metric_cpu_request := (index $proc "metric_cpu_request") -}}
+{{- $proc_metric_memory_request := (index $proc "metric_memory_request") -}}
+
+{{- $proc_metric_cpu_limit := (index $proc "metric_cpu_limit") -}}
+{{- $proc_metric_memory_limit := (index $proc "metric_memory_limit") -}}
+
 {{- $proc_node_selectors := (index $proc "node_selectors") -}}
 ---
 apiVersion: extensions/v1beta1
@@ -234,6 +240,31 @@ spec:
           mountPath: "/tmp"
         - name: "shared-folder"
           mountPath: "/shared"
+        resources:
+          requests:
+            {{- if $proc_metric_cpu_request }}
+            cpu: "{{ $proc_metric_cpu_request }}"
+            {{- else if $.Values.config.metric_cpu_request }}
+            cpu: "{{ $.Values.config.metric_cpu_request }}"
+            {{- end }}
+
+            {{- if $proc_metric_memory_request }}
+            memory: "{{ $proc_metric_memory_request }}"
+            {{- else if $.Values.config.metric_memory_request }}
+            memory: "{{ $.Values.config.metric_memory_request }}"
+            {{- end }}
+          limits:
+            {{- if $proc_metric_cpu_limit }}
+            cpu: "{{ $proc_metric_cpu_limit }}"
+            {{- else if $.Values.config.metric_cpu_limit }}
+            cpu: "{{ $.Values.config.metric_cpu_limit }}"
+            {{- end }}
+
+            {{- if $proc_metric_memory_limit }}
+            memory: "{{ $proc_metric_memory_limit }}"
+            {{- else if $.Values.config.metric_memory_limit }}
+            memory: "{{ $.Values.config.metric_memory_limit }}"
+            {{- end }}
         {{- include "image_labels" $ | indent 8 }}
         env:
           - name: APP_NAME
@@ -243,5 +274,4 @@ spec:
             name: {{ $.Values.app.name }}
       {{- end }}
       {{- end }}
-...{{ "\n" }}
 {{- end }}
