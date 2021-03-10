@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ include "process-exporter.fullname" . }}
@@ -20,7 +20,6 @@ spec:
         app.kubernetes.io/name: {{ include "process-exporter.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      privileged: true
       restartPolicy: Always
       containers:
       - name: process-exporter
@@ -48,6 +47,8 @@ spec:
           name: procfs
         - mountPath: /etc/process_exporter
           name: config
+        securityContext:
+          privileged: true
       volumes:
       - hostPath:
           path: /proc
