@@ -1,3 +1,5 @@
+# WARNING: THIS REPOSITORY HAS BEEN MOVED TO https://github.com/Thinkei/eh-helm-chart
+
 Employment Hero App Chart
 =========================
 
